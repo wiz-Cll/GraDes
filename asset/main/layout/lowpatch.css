@@ -1,0 +1,13 @@
+.avatarctn, .avatar, .highlight, .formctn, .username, .passwd{
+	behavior: url(PIE.ptc);
+}
+.avatarctn{
+	/*-pie-background: linear-gradient(#000, #FFF);
+	behavior: url(PIE.ptc);*/
+	/*box-shadow: inset 0 5px 8px 2px #666;*/
+	border: 1px solid #666;
+}
+.highlight{
+	/*-pie-background: linear-gradient(#CCC, #EEE); /*PIE*/
+	display: none;
+}

@@ -1,0 +1,227 @@
+*{
+	margin:0;
+	padding: 0;
+}
+body{
+	position: relative;
+}
+.forani{
+	/*perspective: 600px;*/
+}
+.login, .loginani, .userinfo, .infoani{
+	/*position: absolute;*/
+	/*height: auto;*/
+	width: 400px;
+	margin: 3% auto;
+	/*outline: 1px dashed #ACCDED;*/
+	/*-webkit-transition: -webkit-transform 0.5s ease;*/
+}
+.login{
+	height: auto;
+	z-index: 50;
+}
+.userinfo{
+	display: none;
+	height: 300px;
+	z-index: 40;
+}
+
+.loginani{
+	-webkit-animation-name: rotateYdis;
+    -webkit-animation-duration: 0.4s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: ease-in;
+
+    -moz-animation-name: rotateYdis;
+    -moz-animation-duration: 0.8s;
+    -moz-animation-iteration-count: 1;
+    -moz-animation-timing-function: ease-in;
+}
+.infoani{
+	-webkit-animation-name: rotateYapp;
+    -webkit-animation-duration: 0.4s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: ease-out;
+
+    -moz-animation-name: rotateYapp;
+    -moz-animation-duration: 0.8s;
+    -moz-animation-iteration-count: 1;
+    -moz-animation-timing-function: ease-out;
+}
+
+.hide{
+	display: none;
+}
+/* avatar 整个部分通过百分比实现了组件化  可以复用了  只要定义avatarctn的大小，内部的img和高光都不用调整规格和位置  */
+.shdmaker{
+	position: absolute;
+	width: 140px;
+	height: 140px;
+	margin: 0 0 0 130px; 
+	/* 左外边距= ( login - avatarctn )/2  */
+	z-index: 95;
+	/*border: 1px dashed #ACCDED;*/
+
+	border-radius: 50%;
+	-webkit-box-shadow: -2px 0px 10px 0px rgba(150,150,150, 0.2);
+	box-shadow: -2px 0px 10px 0px rgba(150,150,150, 0.2);
+}
+.avatarctn{
+	position: relative;
+	width: 140px;
+	height: 140px;
+	margin: 0 auto;
+	z-index: 100;
+	border-radius: 50%;
+	/*border: 1px dashed #ACCDED;*/
+	
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(200,200,200,0.5)), to(rgba(255,255,255,1)) );
+	background: -moz-linear-gradient(top, rgba(200,200,200,0.5),rgba(255,255,255,1));
+	background: -o-linear-gradient(top, rgba(200,200,200,0.5),rgba(255,255,255,1));
+	background: linear-gradient(top, rgba(200,200,200,1),rgba(255,255,255,1)); /*future CSS3 browsers*/
+
+	-webkit-box-shadow: inset 0 1px 5px 0px rgba(150,150,150, 0.3);
+	box-shadow: inset 0 1px 5px 0px rgba(150,150,150, 0.3);
+}
+.avatar{
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	width: 90%;
+	height: 90%;
+	z-index: 110;
+	border-radius: 50%;
+	/*border: 1px dashed #ACCDED;*/
+}
+.loading{
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	width: 20px;
+	height: 20px;
+	background: #accded;
+	z-index: 115;
+}
+.highlight{
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	width: 45%;
+	height: 90%;
+	z-index: 120;
+	border-radius: 140px 0 0 140px;
+	/*border: 1px dashed red;*/
+
+	-webkit-transform: rotate(50deg);
+	-webkit-transform-origin: right center;
+	-moz-transform: rotate(50deg);
+	-moz-transform-origin: right center;
+	-ms-transform: rotate(50deg);
+	-ms-transform-origin: right center;
+	transform: rotate(50deg);
+	transform-origin: right center;
+
+	background: -webkit-gradient(linear, left top, right bottom, from(rgba(255,255,255,.7)), to(rgba(255,255,255,0)));
+	background: -moz-linear-gradient(left top, rgba(255,255,255,.7), rgba(255,255,255,0));
+	background: -o-linear-gradient(left top, rgba(255,255,255,.7), rgba(255,255,255,0));
+	background: linear-gradient(left top, rgba(255,255,255,.7), rgba(255,255,255,0));
+
+	/*background: ;*/
+}
+
+.formctn{
+	position: relative;
+	top: -65px;
+	/*left: 75px;*/
+	width: 350px;
+	height: auto;
+	padding: 90px 0 0.8em 0 ;
+	margin: 0 auto;
+	z-index: 90;
+	background: #f5f5f5;
+	/*border: 1px dashed #ACCDED;*/
+
+	border-radius: 8px;
+	-webkit-box-shadow: 0 5px 20px 0px rgba(150,150,150, 0.4);
+
+	 box-shadow: 0 5px 20px 4px rgba(150,150,150, 0.4); 
+}
+.username, .passwd{
+	/*position: absolute;*/
+	width: 80%;
+	height: 1.25em;
+	margin: 0 7% 1em 7%;
+	padding: 4px 2%;
+	outline: none;
+	border-radius: 2px;
+	border: 1px solid #ccc;
+	font-size: 1.25em;
+	color: #ccc;
+	letter-spacing: 0.0625em;
+	outline: 8px solid #EEE;
+}
+.username:hover, .passwd:hover{
+	border: 1px solid #ccc;
+	outline: 8px solid #EEE;
+
+}
+.username:focus, .passwd:focus{
+	/*border-radius: 5px;*/
+	/*border: 1px solid black;*/
+	outline: 8px solid #dceefc;
+}
+.forlow{
+	display: none;
+}
+.chk{
+	width: 1em;
+	height: 1em;
+	border: none;
+}
+.btn{
+	/*display: block;*/
+	float: right;
+	/*width: 80%;*/
+	height: 1.25em;
+	margin: 0 7% 1em 7%;
+	padding: 4px 2%;
+	outline: none;
+	border-radius: 1em;
+	border: 1px solid #ccc;
+	font-size: 1.25em;
+	color: #FFF;
+	letter-spacing: 0.0625em;
+	text-align: center;
+	cursor: pointer;
+}
+#click-login:target ~ .login{
+	-webkit-animation-name: fadeInLeft;
+	-moz-animation-name: fadeInLeft;
+	-ms-animation-name: fadeInLeft;
+	-o-animation-name: fadeInLeft;
+	animation-name: fadeInLeft;
+	-webkit-animation-delay: .1s;
+	-moz-animation-delay: .1s;
+	-o-animation-delay: .1s;
+	-ms-animation-delay: .1s;
+	animation-delay: .1s;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
