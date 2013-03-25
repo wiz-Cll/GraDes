@@ -1,10 +1,10 @@
 define(function( require, exports, module ){
-	var serviceUrl = 'http://chenllos.com/api';
+	var serviceUrl = 'http://chenllos.com/api/api/';
 
 	//用户操作
-	var signUpUrl = serviceUrl + '?action=signup';
-	var signInUrl = serviceUrl + '?action=signin';
+	var userUrl = serviceUrl + 'User.php';
+	// var signInUrl = serviceUrl + 'user.php?action=signin';
 
-	exports.signUpUrl = signUpUrl;
+	exports.userUrl = userUrl;
 })
 
