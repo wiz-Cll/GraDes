@@ -147,7 +147,20 @@ define(function( require, exports, module){
 		xhr.send( paramStr );
 	}
 
+	function showTip( str ){
+		// 用户提示与反馈
+		// 优雅降级的iOS提示
+		// 高度的一致性
+		console.log( str );
+	}
 
+	function ajaxFail( statusCode ){
+		var state = '请求出错，原因是：。。。';
+		switch( statusCode ){
+			// case ''
+		}
+		showTip( state );
+	}
 
 
 
@@ -157,6 +170,7 @@ define(function( require, exports, module){
 	exports.qsa = qsa;
 	exports.ajaxGet = ajaxGet;
 	exports.ajaxPost = ajaxPost;
+	exports.tip = showTip;
 	exports.Event = Event;
 	
 	// 打包暴露接口 ?how?

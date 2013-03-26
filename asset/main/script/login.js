@@ -1,6 +1,7 @@
 define(function( require ){
-	var util = require('./Util');
-	var conf = require('./config');
+	var Util = require('./Util');
+	// var Conf = require('./Config');
+	var User = require('./User');
 
 	window.onload = function(){
 		console.log('module was require suc by seajs');
@@ -9,20 +10,14 @@ define(function( require ){
 
 		// 多添加HTML5特性   如多类  不要在乎兼容性了！！
 		var aniTime = 400;
-		var login = util.qs('.login');
-		var userinfo = util.qs(".userinfo");
+		var login = Util.qs('.login');
+		var userinfo = Util.qs(".userinfo");
 		var params = new Array();
 
-		util.Event.addHandler( util.qs('.btn') ,'click', function(){ 
-			var param = {
-				'action': 'signup',
-				'username': 'chenllos@163.com',
-				'password': 'sasuke'
-				// 'token': '2B15D59EA874C5676B8F1F7A40757823'
-			};
-			util.ajaxPost( conf.userUrl, param, function(){
-				console.log('返回成功接收');
-			} );
+		Util.Event.addHandler( Util.qs('.btn') ,'click', function(){
+			// 获取用户输入的方法
+			var currentUser = new User.init('chenllos@163.com','sasuke');
+			currentUser.login();
 			// console.log('添加loginani类   '+ (new Date()).valueOf())
 			login.className += ' loginani';
 			// console.log('添加loginani类完成，开始添加userinfoani类   '+ (new Date()).valueOf())
@@ -39,20 +34,6 @@ define(function( require ){
  		});
 		
 	};
-
-	var User = function(){
-		this.username = arguments[0];
-		this.password = arguments[1];
-		this.login = function(){
-			var requestParam = {
-				'username': this.username,
-				'password': this.password
-			}
-			var xhr = new XMLHttpRequest();
-			xhr.open('post', login_url, true);
-			xhr.send( data );
-		}
-	}
 
 })
 
