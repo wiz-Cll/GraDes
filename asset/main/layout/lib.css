@@ -10,5 +10,15 @@
 
 .tip{
 	display: inline-block;
-	background: #fff;
+	background: #accded;
+	-webkit-transition: -webkit-transform 0.5s ease;
+}
+.tip:before{
+	content: data-content;
+	-webkit-transform: perspective(600px) rotateX(90deg);
+	-webkit-transform-origin: 50% 50%;
+}
+.tip:hover{
+	-webkit-transform: perspective(600px) rotateX(90deg);
+	-webkit-transform-origin: 50% 50%;
 }
