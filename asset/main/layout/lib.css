@@ -1,0 +1,14 @@
+.tip-ctn{
+	position: fixed;
+	width: 100%;
+	top: 0;
+	height: 40px;
+	padding: 8px;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.tip{
+	display: inline-block;
+	background: #fff;
+}
