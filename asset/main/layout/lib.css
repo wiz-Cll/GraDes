@@ -82,10 +82,10 @@
        -ms-transition: all 400ms ease;
        transition: all 400ms ease;
     
-    -webkit-transform-origin: 50% 0%;
-       -moz-transform-origin: 50% 0%;
-        -ms-transform-origin: 50% 0%;
-            transform-origin: 50% 0%;
+    -webkit-transform-origin: 50% 100%;
+       -moz-transform-origin: 50% 100%;
+        -ms-transform-origin: 50% 100%;
+            transform-origin: 50% 100%;
     
     -webkit-transform-style: preserve-3d;
        -moz-transform-style: preserve-3d;
@@ -96,13 +96,13 @@
         background: #DD4D42;
          
 
-        -webkit-transform: translate3d( 0px, 0px, -30px ) rotateX( 90deg );
-           -moz-transform: translate3d( 0px, 0px, -30px ) rotateX( 90deg );
-            -ms-transform: translate3d( 0px, 0px, -30px ) rotateX( 90deg );
-                transform: translate3d( 0px, 0px, -30px ) rotateX( 90deg );
+        -webkit-transform: translate3d( 0px, 0px, -30px ) rotateX( -90deg );
+           -moz-transform: translate3d( 0px, 0px, -30px ) rotateX( -90deg );
+            -ms-transform: translate3d( 0px, 0px, -30px ) rotateX( -90deg );
+                transform: translate3d( 0px, 0px, -30px ) rotateX( -90deg );
 }
 
-.roll-link span:after {
+.roll-link span:before {
     content: attr(data-title);
 
     display: block;
@@ -114,7 +114,7 @@
     color: #fff;
     background: #DD4D42;
 
-    -webkit-transform-origin: 50% 0%;
+   /* -webkit-transform-origin: 50% 0%;
        -moz-transform-origin: 50% 0%;
         -ms-transform-origin: 50% 0%;
             transform-origin: 50% 0%;
@@ -122,6 +122,72 @@
     -webkit-transform: translate3d( 0px, 105%, 0px ) rotateX( -90deg );
        -moz-transform: translate3d( 0px, 105%, 0px ) rotateX( -90deg );
         -ms-transform: translate3d( 0px, 105%, 0px ) rotateX( -90deg );
-            transform: translate3d( 0px, 105%, 0px ) rotateX( -90deg );
+            transform: translate3d( 0px, 105%, 0px ) rotateX( -90deg );*/
+
+
+    -webkit-transform-origin: 50% 100%;
+    -webkit-transform: translate3d( 0px, -105%, 0px ) rotateX( 90deg );
 }
+
+.wrapper{
+  width: 250px;
+  height: 100px;
+  padding: 0 30px;
+  -webkit-perspective: 600px;
+  -webkit-perspective-origin: 50% 50%;
+  outline: 3px dashed red;
+}
+.wrapper:hover #transwrapper{
+  -webkit-transform-origin: 50% 50%;
+  -webkit-transform: translate3d(0,0,0) rotateX( -90deg);
+}
+ul#transwrapper{
+  /*position: relative;*/
+  list-style: none;
+  width: 250px;
+  height: 100px;
+  padding: 0;
+  -webkit-perspective: 600px;
+  -webkit-perspective-origin: 50% 50%;
+  outline: 2px dashed #aaa;
+  transition: all 400ms ease-out;
+  -webkit-transform-style: preserve-3d;
+}
+
+#transwrapper li.trans{
+  position: relative;
+  top: -100px;
+  height: 100px;
+  width: 250px;
+}
+
+.trans:nth-child(1){
+  background: rgb(25,152,208);
+  -webkit-transform-origin: 50% 100%;
+  -webkit-transform: rotateX(90deg);
+  z-index: 500;
+}
+
+.trans:nth-child(2){
+  background: #000;
+  color: #fff;
+  -webkit-transform-origin: ;
+  z-index: 1000;
+
+}
+
+.trans:nth-child(3){
+  background: rgb(208 ,141 ,89);
+  -webkit-transform-origin: 50% 0%;
+  -webkit-transform: rotateX(-90deg);
+  z-index: 500;
+}
+
+/*.trans:nth-child(4){
+  background: rgb(67 ,70 ,208);
+  -webkit-transform-origin: 50% 50%;
+  -webkit-transform: rotateX(-180deg);
+  z-index: 500;
+}*/
+
 
