@@ -5,7 +5,11 @@
 		<meta charset="utf-8"/>
 		<link rel="stylesheet" type="text/css" href="asset/main/layout/lib.css" media="all" />
 		<script>
-
+			window.onload = function(){
+				document.querySelector('.btn').onclick = function(){
+					document.querySelector('#transwrapper').className += 'turn2';
+				}
+			}
 		</script>
 	</head>
 	<body style="background: #ddd">
@@ -18,13 +22,24 @@
 		<a href="#" class="roll-link">
 			<span data-title="suggesting that designers should start using the new CSS 3 techniques">suggesting that designers should start using the new CSS 3 techniques</span>
 		</a>
-		<div class="wrapper">
+		<div id="wrapper1">
 			<ul id="transwrapper">
 				<li class="trans">我是第一面</li>
 				<li class="trans">我是第二面</li>
-				<li class="trans">我是第三面</li>
-				<!-- <li class="trans">我是第四面</li> -->
+			<!-- 	<li class="trans">我是第三面</li>
+				<li class="trans">我是第四面</li> -->
 			</ul>
 		</div>
+		<br/>
+		<br/>
+		<a class="btn">显示交互提示</a>
+		
+		<div id="wrapper2">
+			<div id="card">
+				<div class="side">我是第一面</div>
+				<div class="side">我是第二面</div>
+			</div>
+		</div>
+
 	</body>
 </html>
