@@ -7,6 +7,8 @@
   -webkit-border-radius: 0.3em;
   -moz-border-radius: 0.3em;
   border-radius: 0.3em;
+  cursor: pointer;
+  box-shadow: 0 0 1px 3px #accded;
 }
 
 .tip-ctn{
@@ -140,9 +142,19 @@
     -webkit-transform: translate3d( 0px, -105%, 0px ) rotateX( 90deg );
 }
 
+#transorigin-cc, #transorigin-ct, #transorigin-cb{
+  width: 400px;
+  height: 300px;
+  margin-left: 50px;
+  float: left;
+}
+
+
+
+
 #wrapper1{
-  width: 600px;
-  height: 100px;
+  width: 380px;
+  height: 50px;
   -webkit-perspective: 200px;
   -webkit-transform-origin: 50% 50%;
   outline: 1px solid #fff;
@@ -161,11 +173,17 @@
   -o-transform-style: preserver-3d;
   transform-style: preserver-3d;
 
-  -webkit-transform-origin: 50% 50%;
+  -webkit-transform-origin: 50% 50% 50%;
   -moz-transform-origin: 50% 50%;
   -ms-transform-origin: 50% 50%;
   -o-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
+  
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden;
 
   -webkit-transition: all 500ms ease;
   -moz-transition: all 500ms ease;
@@ -174,12 +192,18 @@
   transition: all 500ms ease;
 }
 
-#wrapper1:hover #transwrapper, .turn2{
-  -webkit-transform: translateY(50px) translateZ(-50px) rotateX(-90deg);
-  -moz-transform: translateY(50px) translateZ(-50px) rotateX(-90deg);
-  -ms-transform: translateY(50px) translateZ(-50px) rotateX(-90deg);
-  -o-transform: translateY(50px) translateZ(-50px) rotateX(-90deg);
-  transform: translateY(50px) translateZ(-50px) rotateX(-90deg);
+#wrapper1:hover #transwrapper, .turntop{
+  -webkit-transform:  translateY(50%)  translateZ(-25px) rotateX(-90deg);
+}
+
+ .turnback{
+  -webkit-transform: translateY(0%)  translateZ(-50px) rotateX(-180deg);
+}
+ .turnbottom{
+  -webkit-transform: translateY(-50%)  translateZ(-25px) rotateX(-270deg);
+}
+ .turnfront{
+  -webkit-transform: translateY(0%)  translateZ(0px) rotateX(-360deg);
 }
 
 .trans{
@@ -195,16 +219,23 @@
 }
 .trans:nth-child(2){
   -webkit-transform-origin: 50% 0%;
-  -webkit-transform: translateZ(-100px) rotateX(90deg);
+  -webkit-transform: translateZ(-50px) rotateX(90deg);
 }
-/*.trans:nth-child(3){
-  -webkit-transform-origin: 50% 50%;
-  -webkit-transform: rotateX(180deg);
+.trans:nth-child(3){
+  -webkit-transform-origin: 50% 100%;
+  -webkit-transform: translateZ(-50px) rotateX(-90deg);
 }
 .trans:nth-child(4){
   -webkit-transform-origin: 0% 50%;
-  -webkit-transform: rotateX(270deg);
-}*/
+  -webkit-transform: translateZ(-50px) rotateX(180deg);
+}
+
+
+
+
+
+
+
 
 
 #wrapper2{
