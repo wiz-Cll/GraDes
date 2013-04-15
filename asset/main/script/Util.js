@@ -128,15 +128,35 @@ define(function( require, exports, module){
 		xhr.send( null );
 
 	}
+
 	function ajaxPost( url, param, callBack ){
 		var xhr = new XMLHttpRequest();
 		xhr.open('POST', url);
 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;');
-		// xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');  
+		// xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');  
 		// 这样设置header不正确
 		xhr.onreadystatechange = function(){
-			if( xhr.readyState == 4 && xhr.status == 200){
-				callBack();
+			if( xhr.readyState === 4 ){
+				if( xhr.status === 200){
+					try{
+						console.log( xhr.getResponseHeader('Content-Type') );
+						console.group();
+						console.log('对比服务端返回的数据与json序列化的str：');
+						console.log( xhr.responseText );
+						var data = eval('(' + xhr.responseText + ')');
+						console.log( JSON.stringify( data ) );
+						console.groupEnd();
+						// var data = JSON.parse(xhr.responseText);
+						// console.log( typeof data);
+						callBack( data );
+					}
+					catch(err){
+						showTip('解析用户登录返回信息时发生错误： ' + err);
+					}
+				}
+			}
+			else{
+
 			}
 		}
 		var paramStr = '';
@@ -153,7 +173,10 @@ define(function( require, exports, module){
 		// 高度的一致性
 		console.log( str );
 	}
-
+	function show( obj ){
+		obj.style.display = 'block';
+		return false;
+	}
 	function ajaxFail( statusCode ){
 		var state = '请求出错，原因是：。。。';
 		switch( statusCode ){
@@ -168,9 +191,13 @@ define(function( require, exports, module){
 	// 暴露单个接口
 	exports.qs = qs;
 	exports.qsa = qsa;
+
 	exports.ajaxGet = ajaxGet;
 	exports.ajaxPost = ajaxPost;
+
 	exports.tip = showTip;
+	exports.show = show;
+
 	exports.Event = Event;
 	
 	// 打包暴露接口 ?how?

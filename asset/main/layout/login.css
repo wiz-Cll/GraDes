@@ -1,18 +1,25 @@
-*{
+
+body{
 	margin:0;
 	padding: 0;
-}
-body{
 	position: relative;
+	/*background: #accded;
+	background: -moz-radial-gradient(center, ellipse cover,  #accded 0%, #4ea3e5 100%); 
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#accded), color-stop(100%,#4ea3e5));
+	background: -webkit-radial-gradient(center, ellipse cover,  #accded 0%,#4ea3e5 100%);
+	background: -o-radial-gradient(center, ellipse cover,  #accded 0%,#4ea3e5 100%);
+	background: -ms-radial-gradient(center, ellipse cover,  #accded 0%,#4ea3e5 100%);
+	background: radial-gradient(ellipse at center,  #accded 0%,#4ea3e5 100%);	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#accded', endColorstr='#4ea3e5',GradientType=1 );*/
 }
 .forani{
 	/*perspective: 600px;*/
+	padding: 80px 0;
 }
 .login, .loginani, .userinfo, .infoani{
 	/*position: absolute;*/
 	/*height: auto;*/
 	width: 400px;
-	margin: 3% auto;
+	margin: 0 auto;
 	/*outline: 1px dashed #ACCDED;*/
 	/*-webkit-transition: -webkit-transform 0.5s ease;*/
 }
@@ -55,21 +62,20 @@ body{
 /* avatar 整个部分通过百分比实现了组件化  可以复用了  只要定义avatarctn的大小，内部的img和高光都不用调整规格和位置  */
 .shdmaker{
 	position: absolute;
-	width: 140px;
-	height: 140px;
-	margin: 0 0 0 130px; 
+	width: 120px;
+	height: 120px;
+	margin: 0 0 0 140px; 
 	/* 左外边距= ( login - avatarctn )/2  */
 	z-index: 95;
 	/*border: 1px dashed #ACCDED;*/
 
 	border-radius: 50%;
-	-webkit-box-shadow: -2px 0px 10px 0px rgba(150,150,150, 0.2);
-	box-shadow: -2px 0px 10px 0px rgba(150,150,150, 0.2);
+	box-shadow: 0px 0px 3px 0px rgba(150,150,150, 0.5);
 }
 .avatarctn{
 	position: relative;
-	width: 140px;
-	height: 140px;
+	width: 120px;
+	height: 120px;
 	margin: 0 auto;
 	z-index: 100;
 	border-radius: 50%;
@@ -80,8 +86,8 @@ body{
 	background: -o-linear-gradient(top, rgba(200,200,200,0.5),rgba(255,255,255,1));
 	background: linear-gradient(top, rgba(200,200,200,1),rgba(255,255,255,1)); /*future CSS3 browsers*/
 
-	-webkit-box-shadow: inset 0 1px 5px 0px rgba(150,150,150, 0.3);
-	box-shadow: inset 0 1px 5px 0px rgba(150,150,150, 0.3);
+	-webkit-box-shadow: inset 0 1px 5px 0px rgba(150,150,150, 0.25);
+	box-shadow: inset 0 1px 5px 0px rgba(150,150,150, 0.25);
 }
 .avatar{
 	position: absolute;
@@ -91,6 +97,8 @@ body{
 	height: 90%;
 	z-index: 110;
 	border-radius: 50%;
+	background: url('../img/snip.png') center center no-repeat ;
+	box-shadow: 0 0 4px rgba(0,0,0,0.5);
 	/*border: 1px dashed #ACCDED;*/
 }
 .loading{
@@ -133,7 +141,7 @@ body{
 	position: relative;
 	top: -65px;
 	/*left: 75px;*/
-	width: 350px;
+	width: 320px;
 	height: auto;
 	padding: 90px 0 0.8em 0 ;
 	margin: 0 auto;
@@ -142,10 +150,13 @@ body{
 	/*border: 1px dashed #ACCDED;*/
 
 	border-radius: 8px;
-	-webkit-box-shadow: 0 5px 20px 0px rgba(150,150,150, 0.4);
-
-	 box-shadow: 0 5px 20px 4px rgba(150,150,150, 0.4); 
+	/*-webkit-box-shadow: 0 0 0px 2px rgba(0,0,0,0.25);
+	-moz-box-shadow: 0 0 0px 2px rgba(0,0,0,0.25);
+	-ms-box-shadow: 0 0 0px 2px rgba(0,0,0,0.25);
+	-o-box-shadow: 0 0 0px 2px rgba(0,0,0,0.25);
+	box-shadow: 0 0 0px 2px rgba(0,0,0,0.25);*/
 }
+
 .username, .passwd{
 	/*position: absolute;*/
 	width: 80%;
@@ -156,7 +167,7 @@ body{
 	border-radius: 2px;
 	border: 1px solid #ccc;
 	font-size: 1.25em;
-	color: #ccc;
+	color: #777;
 	letter-spacing: 0.0625em;
 	outline: 8px solid #EEE;
 }
@@ -182,17 +193,28 @@ body{
 	/*display: block;*/
 	float: right;
 	/*width: 80%;*/
-	height: 1.25em;
-	margin: 0 7% 1em 7%;
-	padding: 4px 2%;
+	/*height: 1.25em;*/
+	margin: 0.5em;
+	padding: 0.3em 0.75em;
 	outline: none;
-	border-radius: 1em;
+	border-radius: 0.5em;
 	border: 1px solid #ccc;
 	font-size: 1.25em;
-	color: #FFF;
+	color: #999;
 	letter-spacing: 0.0625em;
 	text-align: center;
 	cursor: pointer;
+	-webkit-wfms-transtion: all 400ms ease;
+	-moz-wfms-transtion: all 400ms ease;
+	-ms-wfms-transtion: all 400ms ease;
+	-o-wfms-transtion: all 400ms ease;
+	transition: all 400ms ease;
+}
+.btn:hover{
+	box-shadow: inset 0 0 3px rgba(0,0,0,0.15);
+}
+.btn:active{
+	box-shadow: inset 0 0 5px rgba(0,0,0,0.35);
 }
 #click-login:target ~ .login{
 	-webkit-animation-name: fadeInLeft;

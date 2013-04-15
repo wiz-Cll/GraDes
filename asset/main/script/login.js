@@ -1,36 +1,47 @@
 define(function( require ){
 	var Util = require('./Util');
-	// var Conf = require('./Config');
 	var User = require('./User');
 
 	window.onload = function(){
 		console.log('module was require suc by seajs');
-		// console.log( util.qs('.login').innerText );
-		// console.log( util.qsa('input') );
 
 		// 多添加HTML5特性   如多类  不要在乎兼容性了！！
 		var aniTime = 400;
 		var login = Util.qs('.login');
 		var userinfo = Util.qs(".userinfo");
+
+		var usernameInput = Util.qs('#username');
+		var pwdInput = Util.qs('#password');
+		var loading = Util.qs('.loading');
 		var params = new Array();
 
 		Util.Event.addHandler( Util.qs('.btn') ,'click', function(){
-			// 获取用户输入的方法
-			var currentUser = new User.init('chenllos@163.com','sasuke');
-			currentUser.login();
-			// console.log('添加loginani类   '+ (new Date()).valueOf())
-			login.className += ' loginani';
-			// console.log('添加loginani类完成，开始添加userinfoani类   '+ (new Date()).valueOf())
-			userinfo.className += ' infoani';
-			// console.log('添加infoani类完成类   '+ (new Date()).valueOf())
-			// console.log(userinfo.innerText);
-			setTimeout(function() {
-				// console.log('执行display赋值操作   '+ (new Date()).valueOf())
-				userinfo.style.display="block";
-				login.style.display= "none";
-				// login.classList.remove('loginani');
-				// userinfo.classlist.remove('infoani');
-			},aniTime);
+			Util.show( loading );
+			var userEntity = User.init( usernameInput.value, pwdInput.value );
+			if( userEntity === false ){
+				// 说明未通过验证 没有生成用户实例
+				return false
+			}
+			else{
+				userEntity.login( callBackLogin );
+				function callBackLogin( data, status){
+					if( data.error_code === 0){
+						login.className += ' loginani';
+						userinfo.className += ' infoani';
+						setTimeout(function() {
+							userinfo.style.display="block";
+							login.style.display= "none";
+							// login.classList.remove('loginani');
+							// userinfo.classlist.remove('infoani');
+						},aniTime);
+					}
+					else{
+						console.log( data.message);
+					}
+				}
+				
+			}
+			
  		});
 		
 	};

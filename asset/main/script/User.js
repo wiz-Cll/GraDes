@@ -1,6 +1,7 @@
 define( function( require, exports, module){
 	var Util = require( './Util' );
 	var Conf = require( './Config' );
+	var Valid = require('./Valid');
 
 	var User = function( args ){
 		this.username = args[0];
@@ -8,16 +9,13 @@ define( function( require, exports, module){
 		this.token = undefined;
 	};
 
-	User.prototype.login = function(){
+	User.prototype.login = function( callback ){
 		var param = {
 			action  : 'login',
 			username: this.username,
 			password: this.password
 		};
-		function callBackLogin( data, status){
-			console.log(data);
-		}
-		Util.ajaxPost( Conf.userUrl, param, callBackLogin);
+		Util.ajaxPost( Conf.userUrl, param, callback);
 	}
 
 	User.prototype.signup = function(){
@@ -72,6 +70,15 @@ define( function( require, exports, module){
 
 	module.exports =  {
 		init: function() {
+			// v for validation
+			var unV = Valid.userName( arguments[0] );
+			var pwdV = Valid.pwd( arguments[1] );
+			if( unV.von ){
+
+			}
+			else{
+
+			}
 			return new User( arguments );
 		}
 	};

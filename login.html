@@ -5,6 +5,7 @@
 		<meta charset="utf-8"/>
 		<link rel="stylesheet" type="text/css" href="asset/main/layout/login.css" media="all" />
 		<link rel="stylesheet" type="text/css" href="asset/main/layout/animate-custom.css" media="all" />
+		<link rel="stylesheet" type="text/css" href="asset/main/layout/lib.css" media="all" />
 		<!--[if lt IE 9]>
 		<link rel="stylesheet" type="text/css" href="src/layout/lowpatch.css" media="all" />
 		<script src="mediaquery.js"></script>
@@ -13,24 +14,45 @@
 		</script>
 	</head>
 	<body>
+		<div class="fixtop">
+			<div id="transorigin-ct">
+				<div id="feedbacks">
+					<ul id="transwrapper">
+						<li class="trans">我是第一面</li>
+						<li class="trans">我是第二面</li>
+						<li class="trans">我是第三面</li>
+						<li class="trans">我是第四面</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 		<div class="forani" >
 
 			<div class="login">
 				<div class="shdmaker">
 				</div>
 				<div class="avatarctn">
-					<img class="avatar" src="asset/main/img/defaultavatar.jpg" />
+					<div class="avatar"></div>
 					<div class="highlight"></div>
+					<div class="loading"> loading...</div>
 				</div>
 
 				<div class="formctn">
-					<form name="">
+					<form name="login" id="login-form">
 						<label class="forlow">UserName</label>
 						<input id="username" type="text" placeholder="UserName" class="username" />
 						<label class="forlow">Password</label>
 						<input id="password" type="password" placeholder="Password" class="passwd" />
 						<a class="btn" id="login-btn">Login</a>
 					</form>
+					<!-- <form name="registe"  id="registe-form">
+						<label class="forlow">UserName</label>
+						<input id="username" type="text" placeholder="UserName" class="username" />
+						<label class="forlow">Password</label>
+						<input id="password" type="password" placeholder="Password" class="passwd" />
+						<input id="password" type="password" placeholder="Password" class="passwd" />
+						<a class="btn" id="login-btn">Login</a>
+					</form> -->
 					<br clear="both" />
 				</div>
 			</div>
@@ -40,8 +62,7 @@
 				<div class="shdmaker">
 				</div>
 				<div class="avatarctn">
-					<img class="avatar" src="asset/main/img/defaultavatar.jpg" />
-					<!-- <img class="avatar" src="src/img/myavatar.png"></img> -->
+					<div class="avatar"></div>
 
 					<div class="highlight"></div>
 				</div>
@@ -57,6 +78,7 @@
 			</div>
 
 		</div>
+		<a class="btn">获取天气信息</a>
 		<script src="asset/sea-module/seajs/1.3.0/sea.js"></script>
 		<script>
 		 seajs.config({
