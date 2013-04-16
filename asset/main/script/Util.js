@@ -140,12 +140,12 @@ define(function( require, exports, module){
 				if( xhr.status === 200){
 					try{
 						console.log( xhr.getResponseHeader('Content-Type') );
-						console.group();
-						console.log('对比服务端返回的数据与json序列化的str：');
-						console.log( xhr.responseText );
+						// console.group();
+						// console.log('对比服务端返回的数据与json序列化的str：');
+						// console.log( xhr.responseText );
 						var data = eval('(' + xhr.responseText + ')');
-						console.log( JSON.stringify( data ) );
-						console.groupEnd();
+						// console.log( JSON.stringify( data ) );
+						// console.groupEnd();
 						// var data = JSON.parse(xhr.responseText);
 						// console.log( typeof data);
 						callBack( data );
