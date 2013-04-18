@@ -122,7 +122,13 @@ define(function( require, exports, module){
 		xhr.open('GET', url);
 		xhr.onreadystatechange = function(){
 			if( xhr.readyState == 4 && xhr.status == 200){
-				callBack();
+				try{
+					var data = parseObj( xhr.responseText );
+					callBack( data );
+				}
+				catch(err){
+					console.log('解析返回数据时发生错误：' + err);
+				}
 			}
 		}
 		xhr.send( null );
@@ -140,19 +146,17 @@ define(function( require, exports, module){
 				if( xhr.status === 200){
 					try{
 						console.log( xhr.getResponseHeader('Content-Type') );
-						// console.group();
-						// console.log('对比服务端返回的数据与json序列化的str：');
-						// console.log( xhr.responseText );
-						var data = eval('(' + xhr.responseText + ')');
-						// console.log( JSON.stringify( data ) );
-						// console.groupEnd();
-						// var data = JSON.parse(xhr.responseText);
-						// console.log( typeof data);
+						
+						var data = parseObj( xhr.responseText );
 						callBack( data );
+						
 					}
 					catch(err){
 						showTip('解析用户登录返回信息时发生错误： ' + err);
 					}
+				}
+				else{
+
 				}
 			}
 			else{
@@ -219,5 +223,17 @@ define(function( require, exports, module){
 	          separator = '&';
 	     }
 	      return requestUrl;
+	}
+
+	function parseObj( str ){
+		var data;
+		try{
+			data = JSON.parse( str );
+		}
+		catch( err ){
+			console.log('尝试parseJSON的时候出现错误····'+err);
+			data = eval('(' + str +')');
+		}
+		return data;
 	}
 })
