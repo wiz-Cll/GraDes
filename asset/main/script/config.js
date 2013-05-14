@@ -4,9 +4,11 @@ define(function( require, exports, module ){
 	//用户操作
 	var userUrl = serviceUrl + 'User.php';
 	var listUrl = serviceUrl + 'List.php';
+	var eventUrl = serviceUrl + 'Event.php';
 	// var signInUrl = serviceUrl + 'user.php?action=signin';
 
 	exports.userUrl = userUrl;
 	exports.listUrl = listUrl;
+	exports.eventUrl = eventUrl;
 })
 

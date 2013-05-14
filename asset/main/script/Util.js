@@ -1,4 +1,5 @@
 define(function( require, exports, module){
+	token = 'CD1A1C82B8D09F8DE3C7582B4D7EC08B';
 	function qs( param ){
 		return document.querySelector( param );
 	}
@@ -115,6 +116,30 @@ define(function( require, exports, module){
 
 	};
 
+	function hasClass(obj, cls) {  
+    	return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));  
+	}  
+	  
+	function addClass(obj, cls) {  
+	    if (!this.hasClass(obj, cls)) obj.className += " " + cls;  
+	}  
+	  
+	function removeClass(obj, cls) {  
+	    if (hasClass(obj, cls)) {  
+	        var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');  
+	        obj.className = obj.className.replace(reg, ' ');  
+	    }  
+	}  
+	  
+	function toggleClass(obj,cls){  
+	    if(hasClass(obj,cls)){  
+	        removeClass(obj, cls);  
+	    }else{  
+	        addClass(obj, cls);  
+	    }  
+	}  
+	  
+
 
 	function ajaxGet( url, param, callBack){
 		var xhr = new XMLHttpRequest();
@@ -145,14 +170,15 @@ define(function( require, exports, module){
 			if( xhr.readyState === 4 ){
 				if( xhr.status === 200){
 					try{
-						console.log( xhr.getResponseHeader('Content-Type') );
+						// console.log( xhr.getResponseHeader('Content-Type') );
 						
 						var data = parseObj( xhr.responseText );
 						callBack( data );
+						// callBack( data );
 						
 					}
 					catch(err){
-						showTip('解析用户登录返回信息时发生错误： ' + err);
+						showTip('解析返回信息时发生错误： ' + err);
 					}
 				}
 				else{
@@ -190,19 +216,44 @@ define(function( require, exports, module){
 	}
 
 
+	var errMap = {
+		1:	'未知错误',
+		2:	'写入数据失败(Mongodb_Writter Filed)',
+		3:	'用户名占用',
+		4:	'提交数据为空',
+		5:	'用户不存在',
+		6:	'密码不正确',
+		7:	'token无效或登录超时',
+		8:	'注销失败',
+		9:	'数据依赖关系不完整',
+		10:	'指定列表不存在',
+		11:	'下层有数据',
+		12:	'不能将列表共享给自己',
+		13:	'列表数量有误',
+		14:	'该事务不存在',
+		15:	'事务数量有误',
+		16:	'笔记不存在'
+	};
 
 
+	exports.token = token;
 	// 暴露单个接口
 	exports.qs = qs;
 	exports.qsa = qsa;
 
+	exports.addClass = addClass;
+	exports.hasClass = hasClass;
+	exports.removeClass = removeClass;
+	exports.toggleClass = toggleClass;
+
 	exports.ajaxGet = ajaxGet;
 	exports.ajaxPost = ajaxPost;
 
-	exports.tip = showTip;
+	exports.showTip = showTip;
 	exports.show = show;
 
 	exports.Event = Event;
+	exports.errMap = errMap;
 	
 	// 打包暴露接口 ?how?
 	// modual.exports = qsa;
@@ -231,9 +282,11 @@ define(function( require, exports, module){
 			data = JSON.parse( str );
 		}
 		catch( err ){
-			console.log('尝试parseJSON的时候出现错误····'+err);
+			// console.log('使用parse解析返回数据时 出现错误····'+err);
 			data = eval('(' + str +')');
 		}
 		return data;
 	}
+
+	
 })
