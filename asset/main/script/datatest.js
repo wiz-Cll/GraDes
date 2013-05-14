@@ -13,18 +13,7 @@ define(function( require, exports){
 
 
 	Util.Event.addHandler( newTokenBtn, 'click',function(){
-		var userEntity = User.init( 'chenllos@163.com', 'sasuke' );
-		userEntity.login( loginGetToken );
-
-		function loginGetToken( data,status){
-			if( data.error_code === 0){
-				showTokenInput.value = data.token;
-			}
-			else{
-				console.log('lgoin failed');
-			}
-			return false;
-		}
+		getNewToken()
 	});
 
 	Util.Event.addHandler( newListBtn, 'click',function(){
@@ -79,6 +68,23 @@ define(function( require, exports){
 		}
 	});
 
+	setInterval( getNewToken, 7*60*1000);
+
+
+	function getNewToken(){
+			var userEntity = User.init( 'chenllos@163.com', 'sasuke' );
+			userEntity.login( loginGetToken );
+
+			function loginGetToken( data,status){
+				if( data.error_code === 0){
+					showTokenInput.value = data.token;
+				}
+				else{
+					console.log('lgoin failed');
+				}
+				return false;
+			}
+		}
 	// Util.Event.addHandler( newTokenBtn, 'click',function(){
 
 	// });
