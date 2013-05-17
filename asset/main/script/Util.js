@@ -1,5 +1,5 @@
 define(function( require, exports, module){
-	token = 'CD1A1C82B8D09F8DE3C7582B4D7EC08B';
+	token = '0A085908379C043F7762AD06D9F32D6B';
 	function qs( param ){
 		return document.querySelector( param );
 	}
@@ -33,17 +33,20 @@ define(function( require, exports, module){
 	                case 2:
 	                case 6:
 	                    return 2;
-	                case 4: return 1;
+	                case 4: 
+	                	return 1;
 	            }
 	        }
 	    },
 	    
 	    getCharCode: function(event){
-	        if (typeof event.charCode == "number"){
-	            return event.charCode;
-	        } else {
-	            return event.keyCode;
-	        }
+	    	var code = event.which? event.which : event.keyCode;
+	    	return code;
+	        // if (typeof event.charCode == "number"){
+	        //     return event.charCode;
+	        // } else {
+	        //     return event.keyCode;
+	        // }
 	    },
 	    
 	    getClipboardText: function(event){
@@ -112,7 +115,23 @@ define(function( require, exports, module){
 	        } else {
 	            event.cancelBubble = true;
 	        }
-	    }
+	    },
+
+	    trigger: function(element,event){
+			if (document.createEventObject){
+				// IE浏览器支持fireEvent方法
+				var evt = document.createEventObject();
+				return element.fireEvent('on'+event,evt)
+			}
+			else{
+				// 其他标准浏览器使用dispatchEvent方法
+				var evt = document.createEvent( 'HTMLEvents' );
+				// initEvent接受3个参数：
+				// 事件类型，是否冒泡，是否阻止浏览器的默认行为
+				evt.initEvent(event, true, true);  
+				return !element.dispatchEvent(evt);
+			}
+		}
 
 	};
 

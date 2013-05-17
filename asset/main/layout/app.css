@@ -37,6 +37,8 @@ section{
 	/*min-width: 500px;*/
 	height: 100%;
 	min-height: 400px;
+	box-sizing: border-box;
+	padding: 1.5em;
 
 	outline: 1px solid #acd;
 	/*background: url(../img/bg-ironman3-2.jpg) center center;*/
@@ -61,12 +63,15 @@ nav{
 }
 .list, #add-list{
 	box-sizing: content-box;
+	margin: 0;
 	padding: 0.5em;
 	border: none;
 	cursor: pointer;
+	-webkit-transition: all 300ms 100ms ease-in;
 }
 .list{
 	border-bottom: 1px dashed rgba(220, 220, 220, 1);
+
 }
 
 .listpre, .listname, .listshare, .listevents{
@@ -99,4 +104,106 @@ nav{
 
 .list.active .listshare{
 	display: inline-block;
+}
+
+/*  ---- experimental: transition --- */
+
+#lists li{
+	/*-webkit-transition: all 600ms ease-out;*/
+	background: #f5f5ff;
+	box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.temp{
+	margin-top: 50px;
+	-wekit-transform-origin: top left;
+	-webkit-transform: perspective(300px) rotateX(-40deg);
+}
+
+/*  ------ end of experimental -----*/
+
+/*  --------- 输入框的样式 -----------*/
+
+#input-ctn{
+	/*display: table-row;*/
+	width: 100%;
+	box-sizing: border-box;
+	padding: 3px;
+	background: #f77d62;
+}
+
+#event-input{
+	/*display: table-cell;*/
+
+	display: block;
+	/*width: 100%;*/
+	box-sizing: border-box;
+	padding: 4px;
+	height: 2em;
+	font-size: 1em;
+	/* input即便在block的时候宽度也是有限的，  所以也是需要js控制宽度*/
+	min-width: 500px;
+	margin: 0 4em 0 0;
+	border: none;
+	/*background: transparent;*/
+	background: rgba(255,255,255,0.6);
+}
+
+#event-input:focus {
+	outline: none;
+}
+.addons{
+	/*display: none;*/
+
+	float: right;
+	width: 4em;
+	height: 2em;
+	background: rgba(255,255,255,0.6);
+
+}
+
+#input-ctn a{
+	/*display: none;*/
+} 
+
+#event-input:focus ~ .addons{
+	display: block;
+	color: white;
+}
+/* ---------endof 输入框样式*/
+
+/*  ------------ 事件容器的样式 ----------*/
+.events{
+	list-style: none;
+	margin: 0.5em 0 0 0;
+	padding: 0;
+}
+
+.event{
+	background: #accded;
+	padding: 0;
+	border-radius: 8px;
+	height: 2em;
+}
+.eventpre, .eventbody, .eventtail{
+	display: block;
+	height: 2em;
+	*zoom: 1;
+}
+
+.eventpre, .eventtail{
+	width: 3em;
+	background: #ef7f7f;
+	/*outline: 1px dashed #ccc;*/
+}
+.eventpre{
+	float: left;
+}
+.eventtail{
+	float: right;
+}
+
+.eventbody{
+	margin: 0 3em;
+	height: 2em;
 }

@@ -3,7 +3,7 @@ define(function(require, exports, module){
 	var Conf = require('./Config');
 	var Valid = require('./Valid');
 	var UI = require('./UI');
-	var Event = require('./Event');
+	var Todo = require('./Todo');
 
 	var List = function( args ){
 		this.listName = args[0];
@@ -34,7 +34,7 @@ define(function(require, exports, module){
 			var localErrMap = {};
 			if( data.error_code == 0){
 				if( data.lists ){
-					UI.renderAllLists( data.lists, Util.qs('#lists'));
+					UI.renderAll( data.lists, Util.qs('#lists'));
 				}
 				else{
 					Util.showTip('没有列表');
@@ -60,6 +60,7 @@ define(function(require, exports, module){
 
 					}
 					Util.addClass( target, 'active' );
+					Todo.get( Util.token, e.target.dataset.listid );
 					break;
 				// case 'listpre':
 				// 	target.className +=' active';
@@ -88,7 +89,7 @@ define(function(require, exports, module){
 					}
 					var  listNode = target.parentNode;
 					Util.addClass( listNode, ' active' );
-					Event.get( Util.token, listNode.dataset.listid );
+					Todo.get( Util.token, listNode.dataset.listid );
 					console.log( target.className );
 					break; 
 			}

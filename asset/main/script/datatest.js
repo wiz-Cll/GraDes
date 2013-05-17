@@ -68,7 +68,7 @@ define(function( require, exports){
 		}
 	});
 
-	setInterval( getNewToken, 7*60*1000);
+	setInterval( getNewToken, 20*60*1000);
 
 
 	function getNewToken(){
