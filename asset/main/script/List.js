@@ -34,7 +34,7 @@ define(function(require, exports, module){
 			var localErrMap = {};
 			if( data.error_code == 0){
 				if( data.lists ){
-					UI.renderAll( data.lists, Util.qs('#lists'));
+					UI.renderAll( data.lists, Util.qs('#lists'), UI.renderSingleList);
 				}
 				else{
 					Util.showTip('没有列表');

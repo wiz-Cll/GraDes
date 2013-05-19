@@ -67,19 +67,19 @@ nav{
 	padding: 0.5em;
 	border: none;
 	cursor: pointer;
-	-webkit-transition: all 300ms 100ms ease-in;
+	-webkit-transition: all 500ms 100ms ease;
 }
 .list{
 	border-bottom: 1px dashed rgba(220, 220, 220, 1);
 
 }
 
-.listpre, .listname, .listshare, .listevents{
+.listpre, .listname, .listshare, .listtodos{
 	display: inline-block;
 	*zoom: 1;
 }
 
-.listpre, .listshare, .listevents{
+.listpre, .listshare, .listtodos{
 	/*margin-top: -0.25;*/
 	height: 1em;
 	width: 1em;
@@ -98,7 +98,7 @@ nav{
 .list.active{
 	background: ;
 }
-.list.active .listevents{
+.list.active .listtodos{
 	display: none;
 }
 
@@ -117,7 +117,7 @@ nav{
 .temp{
 	margin-top: 50px;
 	-wekit-transform-origin: top left;
-	-webkit-transform: perspective(300px) rotateX(-40deg);
+	-webkit-transform: perspective(300px) rotateX(-25deg);
 }
 
 /*  ------ end of experimental -----*/
@@ -132,7 +132,7 @@ nav{
 	background: #f77d62;
 }
 
-#event-input{
+#todo-input{
 	/*display: table-cell;*/
 
 	display: block;
@@ -149,7 +149,7 @@ nav{
 	background: rgba(255,255,255,0.6);
 }
 
-#event-input:focus {
+#todo-input:focus {
 	outline: none;
 }
 .addons{
@@ -166,44 +166,44 @@ nav{
 	/*display: none;*/
 } 
 
-#event-input:focus ~ .addons{
+#todo-input:focus ~ .addons{
 	display: block;
 	color: white;
 }
 /* ---------endof 输入框样式*/
 
 /*  ------------ 事件容器的样式 ----------*/
-.events{
+.todos{
 	list-style: none;
 	margin: 0.5em 0 0 0;
 	padding: 0;
 }
 
-.event{
+.todo{
 	background: #accded;
 	padding: 0;
 	border-radius: 8px;
 	height: 2em;
 }
-.eventpre, .eventbody, .eventtail{
+.todopre, .todobody, .todotail{
 	display: block;
 	height: 2em;
 	*zoom: 1;
 }
 
-.eventpre, .eventtail{
+.todopre, .todotail{
 	width: 3em;
 	background: #ef7f7f;
 	/*outline: 1px dashed #ccc;*/
 }
-.eventpre{
+.todpre{
 	float: left;
 }
-.eventtail{
+.todotail{
 	float: right;
 }
 
-.eventbody{
-	margin: 0 3em;
+.todobody{
+	margin: 0 4em;
 	height: 2em;
 }

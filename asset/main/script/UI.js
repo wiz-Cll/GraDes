@@ -24,24 +24,24 @@ define( function( require, exports, module){
 	 *         也可以以特效全开的模式，有transition
 	 *    在其中定义的改变类名以实现动画效果呃函数可以抽出来，在渲染事务的时候也可以使用
 	 */ 
-	function renderAll( lists, domnode ){
+	function renderAll( objArr, domnode, funcRenderSingal ){
 		var htmlstr = '';
-		var  len = lists.length;
+		var  len = objArr.length;
 		if( len > 0 ){
 			for( var i= 0; i< len; i++){
-				var listItem = lists[i];
-				htmlstr = renderSingleList( listItem, htmlstr, domnode );
+				var objItem = objArr[i];
+				htmlstr = funcRenderSingal( objItem, htmlstr, domnode );
 			}
 			if( htmlstr !== false ){
-				node.innerHTML += htmlstr;
+				domnode.innerHTML += htmlstr;
 			}
 			else{
-				var listNodes = Util.qsa('.temp');
+				var objNodes = Util.qsa('.temp');
 
-				for( var i = 0, len = listNodes.length; i<len;i++){
+				for( var i = 0, len = objNodes.length; i<len;i++){
 					var index= i;
 					
-					changeClass4ani( listNodes[index] );
+					changeClass4ani( objNodes[index] );
 					/*
 					 * 将来可能全部由他来实现动画
 					 * dom.style.webkitTransition = 'property duration delay timefunc'
@@ -49,10 +49,14 @@ define( function( require, exports, module){
 					 * 
 					 */
 					function changeClass4ani( node ){
-						node.className = 'list';
+						// if( node.class == 'temp' ){
+							node.className = 'list';
+							Util.Event.trigger( objNodes[0], 'click');
+						// }
+						
 					}
 				}
-				Util.Event.trigger( listNodes[0], 'click');
+				// 
 			}
 
 			return false;
@@ -88,7 +92,7 @@ define( function( require, exports, module){
 		var listpre = '<div class="listpre"></div>';
 		var listname = '<div class="listname">'+ list.list_name + '</div>';
 		var listshare = '<div class="listshare"> + </div>';
-		var listevents = '<div class="listevents">' + list.event_total + '</div>';
+		var listevents = '<div class="listtodos">' + list.event_total + '</div>';
 		var footer = '</li>'
 		htmlstr += header + listpre + listname + listshare + listevents +footer;
 		if( node ){
@@ -103,12 +107,39 @@ define( function( require, exports, module){
 
 
 
-	function renderAllEvents( events, domnode ){
+	function renderSingalTodo( todo, str, domnode ){
+		if( !str ){
+			var htmlstr = '';
+		}
+		else{
+			var htmlstr = '';
+			htmlstr += str;
+		}
+
+		// todoPre  应该分为 已完成  和 未完成
+		// console.log( typeof todo.event_completed );
+		var doneOrNot = todo.event_completed ? 'checked' : '';
+
+		var todoPre = ' <li class="todo" data-todoid="' + todo.event_id + '"> <div class="todopre"><input type="checkbox" class="" value="' + doneOrNot + '" /> </div>';
+		var todoBody = '<div class="todobody">' + todo.event_content + '</div> </li>';
+		var todoTail = '<div class="todotail"></div>';
+
+		htmlstr += todoPre + todoBody + todoTail;
+		
+		if( domnode ){
+			domnode.innerHTML += htmlstr;
+			return false;
+		}
+		else{
+			return htmlstr;
+		}
+
 
 	}
 	exports.init = initUI;
 	// exports.bindHandler = bindHandler;
 	exports.renderAll = renderAll;
 	exports.renderSingleList = renderSingleList;
+	exports.renderSingalTodo = renderSingalTodo;
 	// exports.init = initUI;
 })

@@ -1,5 +1,5 @@
 define(function( require, exports, module){
-	token = '0A085908379C043F7762AD06D9F32D6B';
+	token = '425027A1CBF2F61B15DD063ACEB9114A';
 	function qs( param ){
 		return document.querySelector( param );
 	}

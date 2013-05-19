@@ -18,7 +18,13 @@ define( function( require, exports, module){
 		function cbGetTodos( data, listid ){
 			var localErrMap = {};
 			if( data.error_code == 0){
-				UI.renderAllEvents( data.events, Util.qs('.event[data-listid="'+ listid +'"]'));
+				var domNode = Util.qs('.todos[data-listid="'+ listid +'"]');
+				if( !domNode ){
+					domNode = document.createElement('section');
+					domNode.dataset.listid = listid;
+					Util.qs('section').appendChild( domNode );
+				}
+				UI.renderAll( data.events, domNode, UI.renderSingalTodo  );
 			}
 			else{
 				var tip = localErrMap[ data.error_code ] || Util.errMap[ data.error_code ];
@@ -46,7 +52,7 @@ define( function( require, exports, module){
 
 		function bindCreate(){
 			// keydown
-			Util.Event.addHandler( Util.qs('#event-input'), 'keydown', function(e){
+			Util.Event.addHandler( Util.qs('#todo-input'), 'keydown', function(e){
 				// 键盘事件  可能存在兼容新性问题
 				// 同时  避免搜狗输入法中文时按enter输入英文可能发生的错误
 				// console.log( e );
