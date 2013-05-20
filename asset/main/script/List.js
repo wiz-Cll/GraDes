@@ -16,6 +16,7 @@ define(function(require, exports, module){
 		getLists(token);
 	}
 
+
 	function newList( str,token,callback ){
 		var param = {
 			action:'new',
@@ -49,8 +50,9 @@ define(function(require, exports, module){
 	}
 
 	function bindHandler(){
+		// 点击list的ul的操作
 		Util.qs('#lists').addEventListener('click',function( e ){
-			var target = e.target;
+			var target = Util.Event.getTarget( e );
 			switch( target.className ){
 				case 'list':
 					try{
@@ -94,6 +96,35 @@ define(function(require, exports, module){
 					break; 
 			}
 		}, false);
+		//添加list的操作
+		Util.qs('#add-list p').addEventListener('click', function( e ){
+			Util.addClass( e.target.parentNode, 'editing');
+			Util.qs('#add-list input').focus();
+			console.log( e.target.tagName );
+		});
+
+		Util.qs('#add-list input').addEventListener('keydown',function( e ){
+			var keyCode = Util.Event.getCharCode( e );
+			if( keyCode === 13){
+				// 新建list
+				var target = Util.Event.getTarget( e );
+				var listName = target.value;
+				if( listName.trim() !== ''){
+					function callback( data ){
+						var list = {
+							list_name: listName,
+							list_id: data.list_id,
+							event_total: 0
+						}
+						UI.renderSingleList( list, null, Util.qs('#lists') );
+					}
+					newList( listName, Util.token, callback);
+				}
+				else{
+					// 名字为空  不做操作
+				}
+			}
+		});
 	}
 	// 可以将它做成多态的函数： 有listid传进来，说明是一个已经在服务端存在的列表，调用建立实体的函数，
 	// 没有listid的时候，调用新建列表的请求新建列表

@@ -56,12 +56,14 @@ nav{
 	box-shadow: 0 0 0.5em rgba(0,0,0,0.5)
 }
 
+/* -------------  list的相关样式   -----------------*/
+
 #lists{
 	list-style: none;
 	padding: 0;
 	margin: 0;
 }
-.list, #add-list{
+.list{
 	box-sizing: content-box;
 	margin: 0;
 	padding: 0.5em;
@@ -70,7 +72,7 @@ nav{
 	-webkit-transition: all 500ms 100ms ease;
 }
 .list{
-	border-bottom: 1px dashed rgba(220, 220, 220, 1);
+	border-bottom: 1px solid rgba(232,112,78,0.5);
 
 }
 
@@ -106,12 +108,40 @@ nav{
 	display: inline-block;
 }
 
+#add-list{
+	box-sizing: content-box;
+	padding: 0;
+	margin: 0;
+}
+#add-list p{
+	cursor: pointer;
+}
+
+#add-list p, #add-list input{
+	padding: 0.5em;
+	margin: 0;
+}
+/*  p 和 input的交叉显示 */
+#add-list input, #add-list.editing p{
+	display: none;
+}
+#display p, #add-list.editing input{
+	display: block;
+}
+/*  endof */
+#add-list.editing input{
+	width: 100%;
+	border: none;
+	outline: none;
+	font-size: 1em;
+	background: #E8704E;
+}
 /*  ---- experimental: transition --- */
 
 #lists li{
 	/*-webkit-transition: all 600ms ease-out;*/
 	background: #f5f5ff;
-	box-shadow: 0 0 5px rgba(0,0,0,0.3);
+	/*box-shadow: 0 0 5px rgba(0,0,0,0.3);*/
 }
 
 .temp{
@@ -175,7 +205,7 @@ nav{
 /*  ------------ 事件容器的样式 ----------*/
 .todos{
 	list-style: none;
-	margin: 0.5em 0 0 0;
+	margin: 0.625em 0 0 0;
 	padding: 0;
 }
 
@@ -184,6 +214,8 @@ nav{
 	padding: 0;
 	border-radius: 8px;
 	height: 2em;
+	margin: 0.375em 0;
+	box-shadow: 0 0px 3px rgba(239,127,127,0.75);
 }
 .todopre, .todobody, .todotail{
 	display: block;
@@ -196,7 +228,7 @@ nav{
 	background: #ef7f7f;
 	/*outline: 1px dashed #ccc;*/
 }
-.todpre{
+.todopre{
 	float: left;
 }
 .todotail{

@@ -1,5 +1,5 @@
 define(function( require, exports, module){
-	token = '425027A1CBF2F61B15DD063ACEB9114A';
+	token = '084B5206AB3602DBC18A6DCA4ED5AEEB';
 	function qs( param ){
 		return document.querySelector( param );
 	}
@@ -140,7 +140,14 @@ define(function( require, exports, module){
 	}  
 	  
 	function addClass(obj, cls) {  
-	    if (!this.hasClass(obj, cls)) obj.className += " " + cls;  
+	    if (!this.hasClass(obj, cls)){
+	    	if( obj.className == '' ){
+	    		obj.className += cls;
+	    	}
+	    	else{
+	    		obj.className += " " + cls;
+	    	}
+	    }
 	}  
 	  
 	function removeClass(obj, cls) {  

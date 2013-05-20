@@ -15,7 +15,10 @@
 			</nav>
 			<ul id="lists">
 			</ul>
-			<p id="add-list">+Add A New List</p>
+			<div id="add-list">
+				<input type="text" placeholder="输入列表名称，回车创建..." />
+				<p>+Add A New List</p>
+			</div>
 
 		</aside>
 		<section>
@@ -23,16 +26,18 @@
 				<div class="addons">
 					<a class="">日历</a><a class="">星标</a>
 				</div>
-				<input id="todo-input" placeholder="在这里添加一项事务，按Enter确认创建" />
+				<input id="todo-input" autofocus placeholder="在这里添加一项事务，按Enter确认创建" />
 
 			</div>
-			<ul class="todos">
-				<li class="todo">
-					<div class="todopre"></div>
-					<div class="todotail"></div>
-					<!-- <div class="todobody"></div> -->
-				</li>
-			</ul>
+			<div class="todoctn">
+				<ul class="todos">
+					<!-- <li class="todo">
+						<div class="todopre"></div>
+						<div class="todotail"></div>
+						<div class="todobody"></div>
+					</li> -->
+				</ul>
+			</div>
 		</section>
 		<!-- <footer></footer> -->
 

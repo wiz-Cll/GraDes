@@ -9,12 +9,16 @@ define( function( require, exports, module){
 	}
 
 
-	// function bindHandler(){
-	// 	bindListHandler();
-	// 	function bindListHandler(){
-			
-	// 	}
-	// }
+	/* 
+	 * 主要负责 UI的渲染工作
+	 * 如渲染获取列表后渲染列表
+	 * 
+	 * 而当创建一个列表或单个todo的时候 可以用renderSignal的函数 
+	 *  
+	 *  
+	 *  
+	 *  
+	 */
 
 
 	/*
@@ -89,6 +93,7 @@ define( function( require, exports, module){
 		 */
 		// var header = '<li class="list" data-listid="' + list.list_id + '">';
 		var header = '<li class="temp" data-listid="' + list.list_id + '">';
+		// 里面放置列表图标 和 删除按钮
 		var listpre = '<div class="listpre"></div>';
 		var listname = '<div class="listname">'+ list.list_name + '</div>';
 		var listshare = '<div class="listshare"> + </div>';
@@ -120,14 +125,20 @@ define( function( require, exports, module){
 		// console.log( typeof todo.event_completed );
 		var doneOrNot = todo.event_completed ? 'checked' : '';
 
-		var todoPre = ' <li class="todo" data-todoid="' + todo.event_id + '"> <div class="todopre"><input type="checkbox" class="" value="' + doneOrNot + '" /> </div>';
-		var todoBody = '<div class="todobody">' + todo.event_content + '</div> </li>';
+		// var header = '<ul>'
+		var todoPre = '<li class="todo" data-todoid="' + todo.event_id + '"> <div class="todopre"><input type="checkbox" class="" value="' + doneOrNot + '" /> </div>';
 		var todoTail = '<div class="todotail"></div>';
 
-		htmlstr += todoPre + todoBody + todoTail;
+		var todoBody = '<div class="todobody">' + todo.event_content + '</div> </li>';
+
+
+		// 由于三列布局的要求，要先写tail  再写body
+		htmlstr += todoPre + todoTail + todoBody;
 		
 		if( domnode ){
 			domnode.innerHTML += htmlstr;
+			console.log( domnode.innerHTML );
+			console.log( htmlstr );
 			return false;
 		}
 		else{

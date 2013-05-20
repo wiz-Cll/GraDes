@@ -6,6 +6,16 @@ define( function( require, exports, module){
 	var Valid = require('./Valid');
 
 	function getTodos( token, listid ){
+
+		//判断当前网络状况  和  是否 已获取  
+
+		if( navigator.onLine === true ){
+
+		}
+		else if( navigator.onLine === true ){
+
+		}
+
 		var param = {
 			action: 'get',
 			list_id: listid,
@@ -16,14 +26,17 @@ define( function( require, exports, module){
 		});
 
 		function cbGetTodos( data, listid ){
+
 			var localErrMap = {};
 			if( data.error_code == 0){
-				var domNode = Util.qs('.todos[data-listid="'+ listid +'"]');
-				if( !domNode ){
-					domNode = document.createElement('section');
-					domNode.dataset.listid = listid;
-					Util.qs('section').appendChild( domNode );
-				}
+				
+				var ctnNode = Util.qs('div.todoctn');
+				var domNode = document.createElement('ul');
+				domNode.className = 'todos';
+				domNode.dataset.listid = listid;
+				ctnNode.appendChild( domNode );
+
+				
 				UI.renderAll( data.events, domNode, UI.renderSingalTodo  );
 			}
 			else{
@@ -31,6 +44,36 @@ define( function( require, exports, module){
 				showTip( tip );
 			}
 			return false;
+		}
+
+		function isTodoDomCached( listid ){
+			/* todo是否已缓存
+			 * 先查看是否已在dom中缓存
+			 * 在查看是否已在localStorage中缓存
+			 * 
+			 */
+
+			 if( Util.qs( '.todos[data-listid="' + listid + '"]' ).length === 0 ){
+			 	return false;
+			 }
+			 else{
+			 	return true;
+			 }
+		}
+
+		function isTodoStorageCached( listid ){
+			/* todo是否已缓存
+			 * 先查看是否已在dom中缓存
+			 * 在查看是否已在localStorage中缓存
+			 * 
+			 */
+
+			 if( Util.qs( '.todos[data-listid="' + listid + '"]' ).length === 0 ){
+			 	return false;
+			 }
+			 else{
+			 	return true;
+			 }
 		}
 	}
 
