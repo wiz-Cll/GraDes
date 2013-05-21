@@ -28,47 +28,41 @@ define( function( require, exports, module){
 	 *         也可以以特效全开的模式，有transition
 	 *    在其中定义的改变类名以实现动画效果呃函数可以抽出来，在渲染事务的时候也可以使用
 	 */ 
-	function renderAll( objArr, domnode, funcRenderSingal ){
+	function renderAll( objArr, ctnNode, funcRenderSingal, callback ){
 		var htmlstr = '';
 		var  len = objArr.length;
 		if( len > 0 ){
 			for( var i= 0; i< len; i++){
 				var objItem = objArr[i];
-				htmlstr = funcRenderSingal( objItem, htmlstr, domnode );
+				htmlstr = funcRenderSingal( objItem, htmlstr, ctnNode );
 			}
 			if( htmlstr !== false ){
-				domnode.innerHTML += htmlstr;
+				ctnNode.innerHTML += htmlstr;
 			}
 			else{
 				var objNodes = Util.qsa('.temp');
 
-				for( var i = 0, len = objNodes.length; i<len;i++){
+				for( var i = 0, len = objNodes.length; i < len; i++ ){
 					var index= i;
 					
-					changeClass4ani( objNodes[index] );
-					/*
-					 * 将来可能全部由他来实现动画
-					 * dom.style.webkitTransition = 'property duration delay timefunc'
-					 * 
-					 * 
-					 */
-					function changeClass4ani( node ){
-						// if( node.class == 'temp' ){
-							node.className = 'list';
-							Util.Event.trigger( objNodes[0], 'click');
-						// }
-						
-					}
+					changeClass4ani( objNodes[index], 'list' );
 				}
+
+				// Util.Event.trigger( objNodes[0], 'click');
+
 				// 
 			}
 
-			return false;
 		}
 		else{
 
 		}
 
+		if( callback instanceof Function){
+			callback();
+		}
+		
+		return false;
 	}
 
 	/* @func   渲染列表的原子操作
@@ -77,7 +71,7 @@ define( function( require, exports, module){
 	 *         node( 填充的节点 ) 可选  如果传了这个参数，就会单个单个的渲染，而且不再返回htmlstr 而是false
 	 *  注：如果为了实现动画一般都是要单个单个渲染的  当然也可以全部渲染  然后在全部渲染结束后定义动画等···
 	 */
-	function renderSingleList( list, str, node ){
+	function renderSingleList( list, str, ctnNode, callback ){
 		if( !str ){
 			var htmlstr = '';
 		}
@@ -100,14 +94,20 @@ define( function( require, exports, module){
 		var listevents = '<div class="listtodos">' + list.event_total + '</div>';
 		var footer = '</li>'
 		htmlstr += header + listpre + listname + listshare + listevents +footer;
-		if( node ){
-			node.innerHTML += htmlstr;
-			return false;
+		if( ctnNode ){
+			ctnNode.innerHTML += htmlstr;
 		}
 		else{
 			// do nothing
 			return htmlstr;
 		}
+
+		if( callback instanceof Function ){
+			callback();
+		}
+
+		return false;
+
 	}
 
 
@@ -144,13 +144,29 @@ define( function( require, exports, module){
 		else{
 			return htmlstr;
 		}
+	}
 
 
+
+	/*
+	 * 将来可能全部由他来实现动画
+	 * dom.style.webkitTransition = 'property duration delay timefunc'
+	 * 
+	 * 
+	 */
+	function changeClass4ani( node, className ){
+		node.className = className;
+		// if( node.class == 'temp' ){
+			// Util.addClass( node, className );
+		// }
+		
 	}
 	exports.init = initUI;
 	// exports.bindHandler = bindHandler;
+
 	exports.renderAll = renderAll;
 	exports.renderSingleList = renderSingleList;
 	exports.renderSingalTodo = renderSingalTodo;
+	exports.changeClass4ani = changeClass4ani;
 	// exports.init = initUI;
 })

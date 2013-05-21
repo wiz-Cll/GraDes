@@ -35,7 +35,7 @@ define(function(require, exports, module){
 			var localErrMap = {};
 			if( data.error_code == 0){
 				if( data.lists ){
-					UI.renderAll( data.lists, Util.qs('#lists'), UI.renderSingleList);
+					UI.renderAll( data.lists, Util.qs('#lists'), UI.renderSingleList, renderAllCB);
 				}
 				else{
 					Util.showTip('没有列表');
@@ -45,11 +45,17 @@ define(function(require, exports, module){
 				var tip = localErrMap[ data.error_code ] || Util.errMap[ data.error_code ];
 				Util.showTip( tip );
 			}
+
+			function renderAllCB(){
+				var target = Util.qs('#lists li')
+				Util.Event.trigger( target, 'click');
+			}
 			return false;
 		});
 	}
 
 	function bindHandler(){
+
 		// 点击list的ul的操作
 		Util.qs('#lists').addEventListener('click',function( e ){
 			var target = Util.Event.getTarget( e );
@@ -93,17 +99,28 @@ define(function(require, exports, module){
 					Util.addClass( listNode, ' active' );
 					Todo.get( Util.token, listNode.dataset.listid );
 					console.log( target.className );
-					break; 
+					// break; 
 			}
 		}, false);
-		//添加list的操作
-		Util.qs('#add-list p').addEventListener('click', function( e ){
+
+		/* 添加list的操作
+		 * 1. 用户点击"添加"按钮,改变父元素的类,隐藏p显示input
+		 * 2. 用户输入,回车,创建一个列表
+		 *    (1).设定渲染单个list的回调
+		 *    (2).添加成功后清空input
+		 * 3. 用户点击input外的地方,去除#add-ist的类
+		 * 
+		 * 
+		 * 
+		 * 
+		 */
+		Util.Event.addHandler( Util.qs('#add-list p'), 'click',function( e ){
 			Util.addClass( e.target.parentNode, 'editing');
 			Util.qs('#add-list input').focus();
 			console.log( e.target.tagName );
 		});
 
-		Util.qs('#add-list input').addEventListener('keydown',function( e ){
+		Util.Event.addHandler( Util.qs('#add-list input'), 'keydown', function( e ){
 			var keyCode = Util.Event.getCharCode( e );
 			if( keyCode === 13){
 				// 新建list
@@ -116,7 +133,12 @@ define(function(require, exports, module){
 							list_id: data.list_id,
 							event_total: 0
 						}
-						UI.renderSingleList( list, null, Util.qs('#lists') );
+						UI.renderSingleList( list, null, Util.qs('#lists'), function( node ){
+							var args = arguments;
+							var demnode = Util.qs('#lists .temp')
+							UI.changeClass4ani( demnode, 'list');
+							target.value = '';
+						});
 					}
 					newList( listName, Util.token, callback);
 				}
@@ -124,6 +146,11 @@ define(function(require, exports, module){
 					// 名字为空  不做操作
 				}
 			}
+		});
+
+		Util.Event.addHandler( Util.qs('#add-list input'), 'blur', function( e ){
+			Util.removeClass( Util.qs('#add-list'), 'editing' );
+			return false;
 		});
 	}
 	// 可以将它做成多态的函数： 有listid传进来，说明是一个已经在服务端存在的列表，调用建立实体的函数，
