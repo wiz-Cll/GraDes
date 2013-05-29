@@ -207,7 +207,13 @@ nav{
 	list-style: none;
 	margin: 0.625em 0 0 0;
 	padding: 0;
+	display: none;
 }
+
+.todos.active{
+	display: block;
+}
+
 
 .todo{
 	background: #accded;

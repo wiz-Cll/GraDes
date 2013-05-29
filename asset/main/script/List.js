@@ -1,4 +1,4 @@
-define(function(require, exports, module){ 
+define(function(require, exports, module){
 	var Util = require('./Util');
 	var Conf = require('./Config');
 	var Valid = require('./Valid');
@@ -10,11 +10,11 @@ define(function(require, exports, module){
 		if( args[1] ){
 			this.listId = args[1];
 		}
-	}
+	};
 	List.prototype.modify = function(){};
 	List.prototype.get = function( token ){
 		getLists(token);
-	}
+	};
 
 
 	function newList( str,token,callback ){
@@ -22,7 +22,7 @@ define(function(require, exports, module){
 			action:'new',
 			list_name: str,
 			token: token
-		}
+		};
 		Util.ajaxPost( Conf.listUrl, param ,callback);
 	}
 
@@ -30,10 +30,10 @@ define(function(require, exports, module){
 		var param = {
 			action:'get',
 			token: token
-		}
+		};
 		Util.ajaxPost( Conf.listUrl, param , function( data ){
 			var localErrMap = {};
-			if( data.error_code == 0){
+			if( data.error_code === 0){
 				if( data.lists ){
 					UI.renderAll( data.lists, Util.qs('#lists'), UI.renderSingleList, renderAllCB);
 				}
@@ -47,11 +47,20 @@ define(function(require, exports, module){
 			}
 
 			function renderAllCB(){
-				var target = Util.qs('#lists li')
+				var target = Util.qs('#lists li');
 				Util.Event.trigger( target, 'click');
 			}
 			return false;
 		});
+	}
+
+	function deleteList( token, listid){
+		var param = {
+			action:'delete',
+			list_id: listid,
+			token: token
+		};
+		Util.ajaxPost( Conf.listUrl, param, callback);
 	}
 
 	function bindHandler(){
@@ -70,16 +79,6 @@ define(function(require, exports, module){
 					Util.addClass( target, 'active' );
 					Todo.get( Util.token, e.target.dataset.listid );
 					break;
-				// case 'listpre':
-				// 	target.className +=' active';
-				// 	break;
-				// case 'listname':
-				// 	target.className +=' active';
-				// 	break;
-				// case 'listevents':
-				// 	target.className +=' active';
-				// 	break;
-
 				case 'list active':
 					// donothing
 					break;
@@ -96,22 +95,20 @@ define(function(require, exports, module){
 
 					}
 					var  listNode = target.parentNode;
-					Util.addClass( listNode, ' active' );
+					Util.addClass( listNode, 'active' );
 					Todo.get( Util.token, listNode.dataset.listid );
 					console.log( target.className );
 					// break; 
 			}
 		}, false);
 
-		/* 添加list的操作
+		/*
+		 * 添加list的操作
 		 * 1. 用户点击"添加"按钮,改变父元素的类,隐藏p显示input
 		 * 2. 用户输入,回车,创建一个列表
 		 *    (1).设定渲染单个list的回调
 		 *    (2).添加成功后清空input
 		 * 3. 用户点击input外的地方,去除#add-ist的类
-		 * 
-		 * 
-		 * 
 		 * 
 		 */
 		Util.Event.addHandler( Util.qs('#add-list p'), 'click',function( e ){

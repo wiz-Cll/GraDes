@@ -3,8 +3,8 @@ define( function( require, exports, module){
 	function initUI(){
 		var aside = Util.qs('aside');
 		var section = Util.qs('section');
-		console.log( aside.innerText );
-		console.log( section.innerText );
+		// console.log( aside.innerText );
+		// console.log( section.innerText );
 		section.style.marginLeft = aside.style.width;
 	}
 
@@ -14,8 +14,6 @@ define( function( require, exports, module){
 	 * 如渲染获取列表后渲染列表
 	 * 
 	 * 而当创建一个列表或单个todo的时候 可以用renderSignal的函数 
-	 *  
-	 *  
 	 *  
 	 *  
 	 */
@@ -29,34 +27,41 @@ define( function( require, exports, module){
 	 *    在其中定义的改变类名以实现动画效果呃函数可以抽出来，在渲染事务的时候也可以使用
 	 */ 
 	function renderAll( objArr, ctnNode, funcRenderSingal, callback ){
-		var htmlstr = '';
-		var  len = objArr.length;
-		if( len > 0 ){
-			for( var i= 0; i< len; i++){
-				var objItem = objArr[i];
-				htmlstr = funcRenderSingal( objItem, htmlstr, ctnNode );
-			}
-			if( htmlstr !== false ){
-				ctnNode.innerHTML += htmlstr;
-			}
-			else{
-				var objNodes = Util.qsa('.temp');
+		// 传过来的可能是undefined(没有的时候,服务端返回的没有对象数组)
+		if( objArr ){
+			var htmlstr = '';
+			var  len = objArr.length;
+			if( len > 0 ){
+				for( var i= 0; i< len; i++){
+					var objItem = objArr[i];
+					htmlstr = funcRenderSingal( objItem, htmlstr, ctnNode );
+				}
+				if( htmlstr !== false ){
+					ctnNode.innerHTML += htmlstr;
+				}
+				else{
+					var objNodes = Util.qsa('.temp');
 
-				for( var i = 0, len = objNodes.length; i < len; i++ ){
-					var index= i;
-					
-					changeClass4ani( objNodes[index], 'list' );
+					for( var i = 0, len = objNodes.length; i < len; i++ ){
+						var index= i;
+						
+						changeClass4ani( objNodes[index], 'list' );
+					}
+
+					// Util.Event.trigger( objNodes[0], 'click');
+
+					// 
 				}
 
-				// Util.Event.trigger( objNodes[0], 'click');
-
-				// 
 			}
-
+			else{
+				// todo  传过来的对象数组长度为0时 怎么办
+			}
 		}
 		else{
-
+			// todo 传过来的为undefined时 
 		}
+
 
 		if( callback instanceof Function){
 			callback();
@@ -134,11 +139,11 @@ define( function( require, exports, module){
 
 		// 由于三列布局的要求，要先写tail  再写body
 		htmlstr += todoPre + todoTail + todoBody;
-		
+
 		if( domnode ){
 			domnode.innerHTML += htmlstr;
-			console.log( domnode.innerHTML );
-			console.log( htmlstr );
+			// console.log( domnode.innerHTML );
+			// console.log( htmlstr );
 			return false;
 		}
 		else{
