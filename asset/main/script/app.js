@@ -7,9 +7,9 @@ define(function( require, exports){
 
 	window.onload = function(){
 		UI.init();
-		// List.bind();
-		// List.getLists( Util.token );
+		List.bind();
+		List.getLists( Util.token );
 
-		// Todo.bind();
-	}
+		Todo.bind();
+	};
 })

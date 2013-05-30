@@ -1,5 +1,5 @@
 define(function( require, exports, module){
-	token = '27166FC3CBA0FC9C983F2C1A815BCDAE';
+	token = '7DC3B39FDD201EE346507C3BFBF79439';
 	function qs( param ){
 		return document.querySelector( param );
 	}
@@ -149,33 +149,14 @@ define(function( require, exports, module){
 	}
 
 	function removeClass(obj, cls) {
-		// if( hasClass(obj, cls) ){
-		// 	var classNameStr = obj.className;
-		// 	var replacedClass = '';
-		// 	if( classNameStr.indexOf( ' '+cls) >= 0 || classNameStr.indexOf( ' '+cls + ' ') >= 0 ){
-		// 		replacedClass = obj.className.replace(' '+cls, '');
-		// 	}
-		// 	else if( classNameStr.indexOf(cls + ' ') >= 0 ){
-		// 		replacedClass = obj.className.replace(cls+' ', '');
-		// 	}
-		// 	else{
-		// 		replacedClass =obj.className.replace(cls, '');
-		// 	}
-
-		// 	obj.className = replacedClass;
-		// }
-
-
-
-
 
 		if (hasClass(obj, cls)) {
-			var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');  
-			obj.className = obj.className.replace(reg, '');  
+			var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+			obj.className = obj.className.replace(reg, '');
 		}
 	}
 
-	function toggleClass(obj,cls){  
+	function toggleClass(obj,cls){
 		if(hasClass(obj,cls)){
 			removeClass(obj, cls);
 		}else{
