@@ -69,8 +69,8 @@ body{
   position: absolute;
   height: 100%;
   width: 100%;
-  background: #accded;
-  box-shadow: 0 0 0px 1px rgba( 0,0,0,0.5);
+  /*background: #accded;*/
+  box-shadow: 0 0 3px rgba( 0,0,0,0.5);
   border-radius: 5px;
   /*outline: 1px solid #555;*/
 
@@ -82,15 +82,15 @@ body{
 }
 .trans:nth-child(2){
   -webkit-transform-origin: 50% 0%;
-  -webkit-transform: translateZ(-40px) rotateX(90deg);
+  -webkit-transform: translateZ(-2em) rotateX(90deg);
 }
 .trans:nth-child(3){
   -webkit-transform-origin: 50% 100%;
-  -webkit-transform: translateZ(-50px) rotateX(-90deg);
+  -webkit-transform: translateZ(-2em) rotateX(-90deg);
 }
 .trans:nth-child(4){
   -webkit-transform-origin: 0% 50%;
-  -webkit-transform: translateZ(-40px) rotateX(180deg);
+  -webkit-transform: translateZ(-2em) rotateX(180deg);
 }
 
 

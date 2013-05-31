@@ -12,4 +12,4 @@ define(function( require, exports){
 
 		Todo.bind();
 	};
-})
+});

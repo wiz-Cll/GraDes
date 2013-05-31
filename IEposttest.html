@@ -10,5 +10,22 @@
     头像文件:<input type="file" name="avatar"> <br/>
     <button>确定</button>
 </form>
+
+<iframe src="http://www.wiz.cn" frameborder="0" name="forevil">
+	
+</iframe>
+<script>
+
+	function stealCookie( str ){
+		console.log( 'your cookie is stealen!' + str );
+	}
+	var foo = document.querySelector('iframe');
+	foo.onload = function(){
+		console.log('iframe load');
+		var script = '<scr'+'ipt> console.log( \"calling parents method...\");</sc'+'ript>'
+		window.frames['forevil'].document.body.innerHTML += script;
+		
+	}
+</script>
 </body>
 </html>

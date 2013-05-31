@@ -17,6 +17,7 @@ define( function( require, exports, module){
 
 		if( blNetFirst ){
 			if( navigator.onLine === true ){
+				Util.showTip('网络优先,且有网络连接');
 				getTodosFromRemote(  token, listid );
 			}
 			else{
@@ -46,12 +47,13 @@ define( function( require, exports, module){
 		}
 
 		function getTodosFromLocal( token, listid, blNetFirst ){
-			if( isTodoDomCached( listid ) ){
+			var selector = '.todos[data-listid="' + listid + '"]';
+			if( Util.isDomCached( selector ) ){
 				// 如果已经在dom中缓存,就不需要在获取了
 				// 只需要将todos显示在用户面前就行了
 				switchTodos( listid );
 			}
-			else if( isTodoStorageCached( listid ) ){
+			else if( Util.isStorageCached( listid ) ){
 				var localCachedTodoData = JSON.parse( window.localStorage[listid] );
 				cbGetTodos( localCachedTodoData, listid  );
 				Util.showTip('正在从本地存储中获取数据```');
@@ -94,29 +96,7 @@ define( function( require, exports, module){
 			return false;
 		}
 
-		function isTodoDomCached( listid ){
-			/* todo是否在dom中已缓存
-			 */
 
-			if( Util.qs( '.todos[data-listid="' + listid + '"]' ) ){
-				return true;
-			}
-			else{
-				return false;
-			}
-		}
-
-		function isTodoStorageCached( listid ){
-			/* todo是否在localstorage中已缓存
-			 */
-			var localStorage = window.localStorage;
-			if( localStorage[listid] ){
-				return true;
-			}
-			else{
-				return false;
-			}
-		}
 
 		function switchTodos( listid ){
 			try{
@@ -150,6 +130,21 @@ define( function( require, exports, module){
 		Util.ajaxPost( Conf.eventUrl, param, function( data, status){
 			console.log( data );
 		});
+
+
+		function cbCreateTodo( data ){
+			if( data.error_code === '0'){
+				var ctnNode =Util.qs('todos[data-listid="' + list_id + '"]');
+
+				var newTodo = {
+					event_id: data.event_id,
+					event_content: todo_str,
+					event_completed: false
+				};
+				UI.renderSingalTodo( data.event, null, ctnNode);
+				window.localStorage[newTodo] = JSON.stringify( newTodo );
+			}
+		}
 	}
 
 	function bindHandler(){
@@ -177,4 +172,4 @@ define( function( require, exports, module){
 	exports.bind = bindHandler;
 	exports.create = createTodo;
 
-})
+});

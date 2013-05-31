@@ -20,7 +20,7 @@ define(function( require ){
 			var userEntity = User.init( usernameInput.value, pwdInput.value );
 			if( userEntity === false ){
 				// 说明未通过验证 没有生成用户实例
-				return false
+				return false;
 			}
 			else{
 				userEntity.login( callBackLogin );
@@ -39,12 +39,10 @@ define(function( require ){
 						console.log( data.message);
 					}
 				}
-				
 			}
-			
- 		});
-		
+		});
+
 	};
 
-})
+});
 

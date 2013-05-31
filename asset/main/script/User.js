@@ -16,7 +16,7 @@ define( function( require, exports, module){
 			password: this.password
 		};
 		Util.ajaxPost( Conf.userUrl, param, callback);
-	}
+	};
 
 	User.prototype.signup = function(){
 		var param = {
@@ -28,7 +28,7 @@ define( function( require, exports, module){
 			console.log(data);
 		}
 		Util.ajaxPost( Conf.userUrl, param, callBackSignup);
-	}
+	};
 
 	User.prototype.logout = function(){
 		var param = {
@@ -39,7 +39,7 @@ define( function( require, exports, module){
 			console.log(data);
 		}
 		Util.ajaxPost( Conf.userUrl, param, callBackLogout);
-	}
+	};
 
 	User.prototype.getUserName = function(){
 		var param = {
@@ -51,7 +51,7 @@ define( function( require, exports, module){
 			console.log(data);
 		}
 		Util.ajaxPost( Conf.userUrl, param, callBackGetUserName);
-	}
+	};
 
 
 	User.prototype.changePass = function( arg ){
@@ -65,7 +65,7 @@ define( function( require, exports, module){
 			console.log(data);
 		}
 		Util.ajaxPost( Conf.userUrl, param, callBackChangePass);
-	}
+	};
 
 
 	module.exports =  {
@@ -84,4 +84,4 @@ define( function( require, exports, module){
 	};
 
 	// module.exports = User;
-})
+});

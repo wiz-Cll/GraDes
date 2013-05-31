@@ -25,7 +25,7 @@ define( function( require, exports, module){
 	 * @proc   调用render单个列表的函数 可以以性能模式渲染，即拆分到原子html操作的渲染方式
 	 *         也可以以特效全开的模式，有transition
 	 *    在其中定义的改变类名以实现动画效果呃函数可以抽出来，在渲染事务的时候也可以使用
-	 */ 
+	 */
 	function renderAll( objArr, ctnNode, funcRenderSingal, callback ){
 		// 传过来的可能是undefined(没有的时候,服务端返回的没有对象数组)
 		if( objArr ){
@@ -44,7 +44,7 @@ define( function( require, exports, module){
 
 					for( var i = 0, len = objNodes.length; i < len; i++ ){
 						var index= i;
-						
+
 						changeClass4ani( objNodes[index], 'list' );
 					}
 
@@ -66,7 +66,6 @@ define( function( require, exports, module){
 		if( callback instanceof Function){
 			callback();
 		}
-		
 		return false;
 	}
 
@@ -97,8 +96,8 @@ define( function( require, exports, module){
 		var listname = '<div class="listname">'+ list.list_name + '</div>';
 		var listshare = '<div class="listshare"> + </div>';
 		var listevents = '<div class="listtodos">' + list.event_total + '</div>';
-		var footer = '</li>'
-		htmlstr += header + listpre + listname + listshare + listevents +footer;
+		var footer = '</li>';
+		htmlstr += header + listpre + listname + listshare + listevents + footer;
 		if( ctnNode ){
 			ctnNode.innerHTML += htmlstr;
 		}
@@ -117,7 +116,7 @@ define( function( require, exports, module){
 
 
 
-	function renderSingalTodo( todo, str, domnode ){
+	function renderSingalTodo( todo, str, ctnNode ){
 		if( !str ){
 			var htmlstr = '';
 		}
@@ -140,9 +139,9 @@ define( function( require, exports, module){
 		// 由于三列布局的要求，要先写tail  再写body
 		htmlstr += todoPre + todoTail + todoBody;
 
-		if( domnode ){
-			domnode.innerHTML += htmlstr;
-			// console.log( domnode.innerHTML );
+		if( ctnNode ){
+			ctnNode.innerHTML += htmlstr;
+			// console.log( ctnNode.innerHTML );
 			// console.log( htmlstr );
 			return false;
 		}
@@ -164,7 +163,7 @@ define( function( require, exports, module){
 		// if( node.class == 'temp' ){
 			// Util.addClass( node, className );
 		// }
-		
+
 	}
 	exports.init = initUI;
 	// exports.bindHandler = bindHandler;
@@ -174,4 +173,4 @@ define( function( require, exports, module){
 	exports.renderSingalTodo = renderSingalTodo;
 	exports.changeClass4ani = changeClass4ani;
 	// exports.init = initUI;
-})
+});

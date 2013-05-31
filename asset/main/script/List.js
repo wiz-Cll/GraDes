@@ -26,7 +26,7 @@ define(function(require, exports, module){
 		Util.ajaxPost( Conf.listUrl, param ,callback);
 	}
 
-	function getLists( token ){
+	function getLists( token, blNetFirst, blNetMust ){
 		var param = {
 			action:'get',
 			token: token
@@ -53,7 +53,9 @@ define(function(require, exports, module){
 
 			function cnRenderAll( listsObjArr ){
 				var target = Util.qs('#lists li');
-				Util.Event.trigger( target, 'click');
+				// Util.Event.trigger( target, 'click');
+				var listid = target.dataset.listid;
+				Todo.get( Util.token, listid, true);
 
 
 			}
@@ -136,7 +138,7 @@ define(function(require, exports, module){
 				}
 			});
 		}
-		
+
 
 		/*
 		 * 添加list的操作
@@ -184,8 +186,6 @@ define(function(require, exports, module){
 				}
 			});
 		}
-
-
 		function bindAddListInputBlurHandler(){
 			Util.Event.addHandler( Util.qs('#add-list input'), 'blur', function( e ){
 				Util.removeClass( Util.qs('#add-list'), 'editing' );
@@ -193,7 +193,13 @@ define(function(require, exports, module){
 			});
 		}
 
-
+		/*
+		 * 删除节点的操作: 删除当前active的list
+		 * process: 获取list_id
+		 * 发送请求,监控请求
+		 * 在成功后去除该list的dom节点
+		 * 
+		 */
 		function bindRemoveListClickHandler(){
 			Util.Event.addHandler( Util.qs('#delete-list'), 'click', function(e){
 				var ListObj = Util.qs('.list.active');
@@ -208,4 +214,4 @@ define(function(require, exports, module){
 	exports.newList = newList;
 	exports.getLists = getLists;
 	exports.bind = bindHandler;
-})
+});

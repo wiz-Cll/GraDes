@@ -13,7 +13,7 @@ define(function( require, exports){
 
 
 	Util.Event.addHandler( newTokenBtn, 'click',function(){
-		getNewToken()
+		getNewToken();
 	});
 
 	Util.Event.addHandler( newListBtn, 'click',function(){
@@ -54,12 +54,12 @@ define(function( require, exports){
 						for( var j in listItem){
 							listHtmlStr += j+'-:-' + listItem[j] + '<br/>';
 						}
-						listHtmlStr += '</li>'
+						listHtmlStr += '</li>';
 					}
 					showListUl.innerHTML = listHtmlStr;
 				}
 				else{
-					console.log('您还没有建立列表')
+					console.log('您还没有建立列表');
 				}
 			}
 			else{
@@ -88,4 +88,4 @@ define(function( require, exports){
 	// Util.Event.addHandler( newTokenBtn, 'click',function(){
 
 	// });
-})
+});

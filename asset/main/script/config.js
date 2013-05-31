@@ -10,5 +10,5 @@ define(function( require, exports, module ){
 	exports.userUrl = userUrl;
 	exports.listUrl = listUrl;
 	exports.eventUrl = eventUrl;
-})
+});
 

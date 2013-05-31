@@ -7,8 +7,7 @@ define( function(require, exports, module){
 		// 1300-1400为事务问题
 		1010: '用户名为空！',
 		1015: '不是正确的邮箱'
-
-	}
+	};
 
 	function checkEmail( str ){
 		return /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(str);
@@ -17,7 +16,7 @@ define( function(require, exports, module){
 		var result = {
 			von: false,
 			tip: undefined
-		}
+		};
 		if( str ){
 			if( checkEmail(str) ){
 				result.von = true;
@@ -27,7 +26,7 @@ define( function(require, exports, module){
 			}
 		}
 		else{
-			result.tip = errMsg[1010]; 
+			result.tip = errMsg[1010];
 		}
 
 		return result;
@@ -46,4 +45,4 @@ define( function(require, exports, module){
 
 	exports.userName = userName;
 	exports.pwd = pwd;
-})
+});
