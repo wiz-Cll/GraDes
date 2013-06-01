@@ -1,5 +1,4 @@
 define(function( require, exports, module){
-	token = '0F78EA31E29996CA33525B7EC91BBD4D';
 	function qs( param ){
 		return document.querySelector( param );
 	}
@@ -220,72 +219,6 @@ define(function( require, exports, module){
 		xhr.send( paramStr );
 	}
 
-	function showTip( str ){
-		// 用户提示与反馈
-		// 优雅降级的iOS提示
-		// 高度的一致性
-
-		/* 
-		 * 获取tip节点,然后查看是否正在transition中,如果还在transition,说明是连续来了两个消息
-		 * 
-		 * 待完善,先做点工作上的事情吧
-		 * 
-		 * 
-		 */
-		console.log( this );
-		var tip = this.qs('#tip');
-		var trans = this.qsa('#tip .trans');
-		// var tip = document.querySelector('#tip');
-		// var trans = document.querySelectorAll('#tip .trans');
-		try{
-			var stageNo = parseInt( tip.className.slice(-1) );
-			trans[stageNo+1].innerHTML = str;
-
-			this.addClass(trans[stageNo+1], 'infoStyle');
-			// trans[stageNo+1].className = 'infoStyle';
-			// console.log( trans );
-			console.log( this );
-			tip.className = 'stage_'+(stageNo+1);
-			setTimeout( backTipDefaultStyle,3000);
-		}
-		catch( err ){
-			alert('showtip 出错,  '+ err);
-		}
-
-		function backTipDefaultStyle(){
-			tip.className = '';
-		}
-		return false;
-	}
-
-
-	function isDomCached( selector ){
-		/* todo是否在dom中已缓存
-		 */
-
-		if( this.qs( selector ) ){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-
-	function isStorageCached( key ){
-		/* todo是否在localstorage中已缓存
-		 */
-		var localStorage = window.localStorage;
-		if( localStorage[key] ){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-
-
-
-
 
 	function show( obj ){
 		obj.style.display = 'block';
@@ -320,7 +253,8 @@ define(function( require, exports, module){
 	};
 
 
-	exports.token = token;
+	// exports.token = token;
+	// exports.listsKey = listsKey;
 	// 暴露单个接口
 	exports.qs = qs;
 	exports.qsa = qsa;
@@ -333,10 +267,10 @@ define(function( require, exports, module){
 	exports.ajaxGet = ajaxGet;
 	exports.ajaxPost = ajaxPost;
 
-	exports.isDomCached = isDomCached;
-	exports.isStorageCached = isStorageCached;
+	// exports.isDomCached = isDomCached;
+	// exports.isStorageCached = isStorageCached;
 
-	exports.showTip = showTip;
+	// exports.showTip = showTip;
 	exports.show = show;
 
 	exports.Event = Event;

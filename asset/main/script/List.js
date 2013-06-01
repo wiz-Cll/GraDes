@@ -2,6 +2,8 @@ define(function(require, exports, module){
 	var Util = require('./Util');
 	var Conf = require('./Config');
 	var Valid = require('./Valid');
+	var Seed = require('./Seed');
+
 	var UI = require('./UI');
 	var Todo = require('./Todo');
 
@@ -26,12 +28,68 @@ define(function(require, exports, module){
 		Util.ajaxPost( Conf.listUrl, param ,callback);
 	}
 
+	function deleteList( token, listid, callback ){
+		var param = {
+			action:'del',
+			list_id: listid,
+			token: token
+		};
+		Util.ajaxPost( Conf.listUrl, param, cbInner);
+
+		function cbInner( data ){
+
+			if( data.error_code === 0){
+				cbDeleteList( data.list_id );
+			}
+			else{
+				var localErrMap = {};
+				Seed.showTip( Util.errMap[ data.error_code ]);
+			}
+			return false;
+
+			function cbDeleteList( listId ){
+				// 将已删除的list的节点删除,或隐藏
+				// todo 删除后的动画
+				// 删除的后续操作也完成了: 同时将localstorage中的对象清除掉
+				// todo 是不要抽出方法呢？ localStorage的操作： 增删查改···
+				var listToDel =  Util.qs('.list[data-listid="' + listId + '"]');
+				listToDel.style.display = 'none';
+				console.log( '刚才删除的列表的节点是: ' + listToDel );
+				// todo lists的键值加密和解密
+				var storedList = JSON.parse( window.localStorage[ Seed.listsKey ] );
+				console.log('本地存储的所有列表如下： '+ storedList + ',共有多少个呢```' + storedList.length);
+				for( var i in storedList ){
+					if( storedList[i].list_id === listId ){
+						storedList.splice(i,1);
+						break;
+					}
+				}
+
+				localStorage[  Seed.listsKey ] = JSON.stringify( storedList );
+				return;
+			}
+		}
+	}
+
 	function getLists( token, blNetFirst, blNetMust ){
 		var param = {
 			action:'get',
 			token: token
 		};
-		Util.ajaxPost( Conf.listUrl, param , function( data ){
+		Seed.allMityOp( getListsFromRemote, getListsFromStorage, param, blNetFirst, blNetMust );
+		function getListsFromRemote( param ){
+			Util.ajaxPost( Conf.listUrl, param , function( data ){
+				cbGetLists(data);
+			});
+		}
+
+		function getListsFromStorage( param, blNetFirst ){
+			if( Seed.isStorageCached( Seed.listsKey ) ){
+
+			}
+		}
+		
+		function cbGetLists( data ){
 			var localErrMap = {};
 			if( data.error_code === 0){
 				if( data.lists ){
@@ -43,53 +101,27 @@ define(function(require, exports, module){
 					window.localStorage['lists'] = storageListStr;
 				}
 				else{
-					Util.showTip('没有列表');
+					Seed.showTip('没有列表');
 				}
 			}
 			else{
 				var tip = localErrMap[ data.error_code ] || Util.errMap[ data.error_code ];
-				Util.showTip( tip );
+				Seed.showTip( tip );
 			}
 
 			function cnRenderAll( listsObjArr ){
 				var target = Util.qs('#lists li');
 				// Util.Event.trigger( target, 'click');
 				var listid = target.dataset.listid;
-				Todo.get( Util.token, listid, true);
-
-
+				Todo.get( Seed.token, listid, true);
+				Util.addClass( target, 'active');
 			}
 			return false;
-		});
-	}
-
-	function deleteList( token, listid, callback ){
-		var param = {
-			action:'del',
-			list_id: listid,
-			token: token
-		};
-		Util.ajaxPost( Conf.listUrl, param, cbInner);
-
-		function cbInner( data ){
-
-			if( data.error_code === '0'){
-				cbDeleteList( data.list_id );
-			}
-			else{
-				var localErrMap = {};
-				Util.showTip( Util.errMap[data.error_code ]);
-			}
-			return false;
-
-			function cbDeleteList( listId ){
-				// 将已删除的list的节点删除,或隐藏
-				Util.qs('.list[data-listid="' + listId + '"]').style.display = 'none';
-				// 同时将localstorage中的对象清除掉
-				// todo lists的键值加密和解密
-				var storageList = JSON.parse( window.localStorage['lists'] );
-			}
 		}
+	}	
+
+	function modifyList( token, listid, newListStr, blNetFirst, blNetMust ){
+
 	}
 
 	function bindHandler(){
@@ -113,7 +145,7 @@ define(function(require, exports, module){
 
 						}
 						Util.addClass( target, 'active' );
-						Todo.get( Util.token, e.target.dataset.listid );
+						Todo.get( Seed.token, e.target.dataset.listid );
 						break;
 					case 'list active':
 						// donothing
@@ -132,8 +164,8 @@ define(function(require, exports, module){
 						}
 						var  listNode = target.parentNode;
 						Util.addClass( listNode, 'active' );
-						Todo.get( Util.token, listNode.dataset.listid );
-						console.log( target.className );
+						Todo.get( Seed.token, listNode.dataset.listid );
+						console.log( '你点击的列表节点的子节点的className是: ' + target.className );
 						// break; 
 				}
 			});
@@ -153,7 +185,7 @@ define(function(require, exports, module){
 			Util.Event.addHandler( Util.qs('#add-list p'), 'click',function( e ){
 				Util.addClass( e.target.parentNode, 'editing');
 				Util.qs('#add-list input').focus();
-				console.log( e.target.tagName );
+				// console.log( e.target.tagName );
 			});
 		}
 
@@ -178,7 +210,7 @@ define(function(require, exports, module){
 								target.value = '';
 							});
 						}
-						newList( listName, Util.token, callback);
+						newList( listName, Seed.token, callback);
 					}
 					else{
 						// 名字为空  不做操作
@@ -204,7 +236,7 @@ define(function(require, exports, module){
 			Util.Event.addHandler( Util.qs('#delete-list'), 'click', function(e){
 				var ListObj = Util.qs('.list.active');
 				var listId = ListObj.dataset.listid;
-				deleteList( Util.token, listId );
+				deleteList( Seed.token, listId );
 			});
 		}
 

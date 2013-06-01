@@ -1,5 +1,6 @@
 define(function( require, exports){
 	var Util = require('./Util');
+	var Seed = require('./Seed');
 	var User = require('./User');
 	var List = require('./List');
 	var Todo = require('./Todo');
@@ -8,7 +9,7 @@ define(function( require, exports){
 	window.onload = function(){
 		UI.init();
 		List.bind();
-		List.getLists( Util.token );
+		List.getLists( Seed.token, true );
 
 		Todo.bind();
 	};
