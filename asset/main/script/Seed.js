@@ -83,6 +83,28 @@ define(function(require, exports, module){
 		}
 	}
 
+	// function dataHandler( data, sucFunc){
+	// 	if( data.error_code === 0 )
+	// }
+
+	function cacaheToLocal( key, value ){
+		window.localStorage[ key ] = JSON.Stringify( value );
+	}
+
+	function writeIntoChangeList( newChangeObj ){
+		var changeArr = [];
+		if( window.localStorage.changeList ){
+			var changeStr = window.localStorage.changeList;
+			changeArr = JSON.parse( changeStr );
+		} else {
+			// do nothing
+		}
+		changeArr.push( newChangeObj );
+
+		this.cacaheToLocal( 'changeList', JSON.stringify( changeArr ) );
+
+	}
+
 	exports.token = token;
 	exports.listsKey = listsKey;
 
@@ -90,4 +112,6 @@ define(function(require, exports, module){
 	exports.isDomCached = isDomCached;
 	exports.isStorageCached = isStorageCached;
 	exports.allMityOp = allMityOp;
+
+	exports.cacaheToLocal = cacaheToLocal;
 });

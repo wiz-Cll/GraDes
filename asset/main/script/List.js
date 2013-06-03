@@ -25,7 +25,64 @@ define(function(require, exports, module){
 			list_name: str,
 			token: token
 		};
-		Util.ajaxPost( Conf.listUrl, param ,callback);
+
+		Seed.allMityOp( newListToRemote, newListToLocal, param, true );
+
+		function newListToRemote( param ){
+			Util.ajaxPost( Conf.listUrl, param ,function( data ){
+				if( data.error_code === 0){
+					var newList = {
+						list_id: (new Date()).valueOf(),
+						list_name: param.list_name
+					};
+					cbNewList( newList );
+				} else {
+					Seed.showTip( Util.errMap[ error_code ] );
+				}
+			});
+		}
+		/*
+		 * 离线新建的列表，由于没有guid，暂时使用timeStamp代替
+		 * 因此渲染UI的操作需要兼容这个键值：取值的长度需要验证一下
+		 * 
+		 * 
+		 */
+		function newListToLocal( param ){
+			// 创建虚假的list对象，listid为操作的时间戳
+			var newList = {
+				list_id: (new Date()).valueOf(),
+				list_name: param.list_name
+			};
+
+			// 跟正常的list对象一样渲染
+			cbNewList( newList );
+			// 保存到本地存储
+			if( window.localStorage[ Seed.listsKey ] ){
+				var listsStr = window.localStorage[ Seed.listsKey ];
+				var listsObj = JSON.parse( listsStr );
+				listsObj.push( newList );
+			} else {
+				var listsObj = [];
+				listsObj.push( newList );
+			}
+
+			Seed.cacaheToLocal( Seed.listsKey, listsObj );
+			// 将更改存储到changelist
+			var newChangeObj = {
+				action: 'new',
+				url: Conf.listUrl,
+				obj: newList
+			}
+			Seed.writeIntoChangeList( newChangeObj );
+		}
+
+		function cbNewList( newList ){
+			var listsCtn = Util.qs('#lists');
+			UI.renderSingleList( newList, listsCtn, cnRenderNewList );
+			function cnRenderNewList(){
+
+			}
+		}
 	}
 
 	function deleteList( token, listid, callback ){
@@ -34,29 +91,27 @@ define(function(require, exports, module){
 			list_id: listid,
 			token: token
 		};
-		Util.ajaxPost( Conf.listUrl, param, cbInner);
 
-		function cbInner( data ){
+		Seed.allMityOp( deleteListFromRemote, deleteListFromLocal, param, true);
 
-			if( data.error_code === 0){
-				cbDeleteList( data.list_id );
-			}
-			else{
-				var localErrMap = {};
-				Seed.showTip( Util.errMap[ data.error_code ]);
-			}
-			return false;
-
-			function cbDeleteList( listId ){
-				// 将已删除的list的节点删除,或隐藏
-				// todo 删除后的动画
-				// 删除的后续操作也完成了: 同时将localstorage中的对象清除掉
-				// todo 是不要抽出方法呢？ localStorage的操作： 增删查改···
-				var listToDel =  Util.qs('.list[data-listid="' + listId + '"]');
-				listToDel.style.display = 'none';
-				console.log( '刚才删除的列表的节点是: ' + listToDel );
-				// todo lists的键值加密和解密
+		function deleteListFromRemote( param ){
+			Util.ajaxPost( Conf.listUrl, param, function(){
+				if( data.error_code === 0 ){
+					cbDeleteList( param );
+				}
+				else{
+					var localErrMap = {};
+					Seed.showTip( Util.errMap[ data.error_code ]);
+				}
+				return false;
+			});
+		}
+		function deleteListFromLocal( param ){
+			cbDeleteList( param );
+			var storedList = [];
+			if( window.localStorage[ Seed.listsKey ] ){
 				var storedList = JSON.parse( window.localStorage[ Seed.listsKey ] );
+
 				console.log('本地存储的所有列表如下： '+ storedList + ',共有多少个呢```' + storedList.length);
 				for( var i in storedList ){
 					if( storedList[i].list_id === listId ){
@@ -66,8 +121,31 @@ define(function(require, exports, module){
 				}
 
 				localStorage[  Seed.listsKey ] = JSON.stringify( storedList );
-				return;
+			} else {
+				Seed.showTip('本地没有数据');
 			}
+
+			var newChangeObj = {
+				action: 'del',
+				url: Conf.listUrl,
+				obj: param
+			}
+
+			Seed.writeIntoChangeList( newChangeObj );
+		}
+
+		function cbDeleteList( param ){
+			var listId = param.list_id;
+			// 将已删除的list的节点删除,或隐藏
+			// todo 删除后的动画
+			// 删除的后续操作也完成了: 同时将localstorage中的对象清除掉
+			// todo 是不要抽出方法呢？ localStorage的操作： 增删查改···
+			var listToDel =  Util.qs('.list[data-listid="' + listId + '"]');
+			listToDel.style.display = 'none';
+			console.log( '刚才删除的列表的节点是: ' + listToDel );
+			// todo lists的键值加密和解密
+			
+			return;
 		}
 	}
 
@@ -79,37 +157,40 @@ define(function(require, exports, module){
 		Seed.allMityOp( getListsFromRemote, getListsFromStorage, param, blNetFirst, blNetMust );
 		function getListsFromRemote( param ){
 			Util.ajaxPost( Conf.listUrl, param , function( data ){
-				cbGetLists(data);
+				if( data.error_code === 0 ){
+					cbGetLists(data.lists);
+				} else {
+					Seed.showTip( Util.errMap[data.error_code] );
+				}
 			});
 		}
 
 		function getListsFromStorage( param, blNetFirst ){
+			var token = param.token;
 			if( Seed.isStorageCached( Seed.listsKey ) ){
-
+				var listsStr = window.localStorage[ Seed.listsKey ];
+				var listsObj = JSON.parse( listsStr );
+				var data = {
+					error_code: 0,
+					lists: listsObj
+				}
+				cbGetLists( listsArr );
 			}
 		}
 		
-		function cbGetLists( data ){
-			var localErrMap = {};
-			if( data.error_code === 0){
-				if( data.lists ){
-					UI.renderAll( data.lists, Util.qs('#lists'), UI.renderSingleList, function(){
-						cnRenderAll( data.lists );
-					});
+		function cbGetLists( lists ){
+			
+			if( lists ){
+				UI.renderAll( lists, Util.qs('#lists'), UI.renderSingleList, function(){
+					cbRenderAll( lists );
+				});
 
-					var storageListStr = JSON.stringify( data.lists );
-					window.localStorage['lists'] = storageListStr;
-				}
-				else{
-					Seed.showTip('没有列表');
-				}
+				var storageListStr = JSON.stringify( lists );
+				window.localStorage['lists'] = storageListStr;
 			}
-			else{
-				var tip = localErrMap[ data.error_code ] || Util.errMap[ data.error_code ];
-				Seed.showTip( tip );
-			}
+				
 
-			function cnRenderAll( listsObjArr ){
+			function cbRenderAll( listsObjArr ){
 				var target = Util.qs('#lists li');
 				// Util.Event.trigger( target, 'click');
 				var listid = target.dataset.listid;

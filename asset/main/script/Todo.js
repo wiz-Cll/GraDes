@@ -19,31 +19,14 @@ define( function( require, exports, module){
 			token: token
 		};
 		Seed.allMityOp( getTodosFromRemote, getTodosFromLocal, param, blNetFirst, blNetMust);
-		//判断当前网络状况  和  是否 已获取  
-
-		// if( blNetFirst ){
-		// 	if( navigator.onLine === true ){
-		// 		Seed.showTip('网络优先,且有网络连接');
-		// 		getTodosFromRemote(  token, listid );
-		// 	}
-		// 	else{
-		// 		// 提示 无网
-		// 		if( blNetMust ){
-		// 			Seed.showTip(' sync failed...');
-		// 		}
-		// 		else{
-		// 			Seed.showTip(' offline ````  try get data from cache');
-		// 			getTodosFromLocal( token, listid, blNetFirst);
-		// 		}
-		// 	}
-		// }
-		// else{
-		// 	getTodosFromLocal( token, listid, blNetFirst );
-		// }
 
 		function getTodosFromRemote( param ){
 			Util.ajaxPost( Conf.eventUrl, param , function( data ){
-				cbGetTodos( data, listid );
+				if( data.error_code === 0 ){
+					cbGetTodos( listid, data.events);
+				} else {
+
+				}
 			});
 		}
 
@@ -71,10 +54,7 @@ define( function( require, exports, module){
 		}
 
 
-		function cbGetTodos( data, listid ){
-			var localErrMap = {};
-			if( data.error_code === 0){
-
+		function cbGetTodos( listid, todos ){
 				var ctnNode = Util.qs('div.todoctn');
 				var domNode = document.createElement('ul');
 				domNode.className = 'todos';
@@ -87,14 +67,8 @@ define( function( require, exports, module){
 					// 渲染后的回调,将todos显示出来
 					cbRenderAllTodos( listid );
 					// 将todos存储
-					cacheTodosToStorage( data, listid);
+					Seed.cacaheToLocal( listid, data);
 				});
-
-			}
-			else{
-				var tip = localErrMap[ data.error_code ] || Util.errMap[ data.error_code ];
-				Seed.showTip( tip );
-			}
 			return false;
 		}
 
@@ -119,9 +93,6 @@ define( function( require, exports, module){
 		 * 或者用户更新了todos,删除,新建,修改等
 		 * 
 		 */
-		function cacheTodosToStorage( data, listid ){
-			window.localStorage[listid] = JSON.stringify( data );
-		}
 	}
 
 	function createTodo( token, list_id, todo_str){

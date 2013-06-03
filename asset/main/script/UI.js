@@ -91,6 +91,10 @@ define( function( require, exports, module){
 		 */
 		// var header = '<li class="list" data-listid="' + list.list_id + '">';
 		var header = '<li class="temp" data-listid="' + list.list_id + '">';
+
+		// if( list.list_id ){
+		// 	header = '<li class="temp" data-listid="' + list.list_id + '">';
+		// }
 		// 里面放置列表图标 和 删除按钮
 		var listpre = '<div class="listpre"></div>';
 		var listname = '<div class="listname">'+ list.list_name + '</div>';
