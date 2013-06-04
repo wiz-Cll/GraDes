@@ -31,9 +31,11 @@ define(function(require, exports, module){
 		function newListToRemote( param ){
 			Util.ajaxPost( Conf.listUrl, param ,function( data ){
 				if( data.error_code === 0){
+
 					var newList = {
-						list_id: (new Date()).valueOf(),
-						list_name: param.list_name
+						list_id: data.list_id,
+						list_name: param.list_name,
+						event_total: 0
 					};
 					cbNewList( newList );
 				} else {
@@ -51,22 +53,13 @@ define(function(require, exports, module){
 			// 创建虚假的list对象，listid为操作的时间戳
 			var newList = {
 				list_id: (new Date()).valueOf(),
-				list_name: param.list_name
+				list_name: param.list_name,
+				event_total: 0
 			};
 
 			// 跟正常的list对象一样渲染
 			cbNewList( newList );
-			// 保存到本地存储
-			if( window.localStorage[ Seed.listsKey ] ){
-				var listsStr = window.localStorage[ Seed.listsKey ];
-				var listsObj = JSON.parse( listsStr );
-				listsObj.push( newList );
-			} else {
-				var listsObj = [];
-				listsObj.push( newList );
-			}
 
-			Seed.cacaheToLocal( Seed.listsKey, listsObj );
 			// 将更改存储到changelist
 			var newChangeObj = {
 				action: 'new',
@@ -78,9 +71,37 @@ define(function(require, exports, module){
 
 		function cbNewList( newList ){
 			var listsCtn = Util.qs('#lists');
-			UI.renderSingleList( newList, listsCtn, cnRenderNewList );
-			function cnRenderNewList(){
+			// 直接调用renderSingal需要设置htmlstr为undefined或其他false值
+			UI.renderSingleList( newList, null, listsCtn, cnRenderNewList );
 
+			// 将新建的列表cached到本地存储
+			if( window.localStorage[ Seed.listsKey ] ){
+				var listsStr = window.localStorage[ Seed.listsKey ];
+				var listsObj = JSON.parse( listsStr );
+				listsObj.push( newList );
+			} else {
+				var listsObj = [];
+				listsObj.push( newList );
+			}
+
+			Seed.cacaheToLocal( Seed.listsKey, listsObj );
+
+			function cnRenderNewList(){
+				// console.log('新建列表的动画。。。');
+				var target = Util.qs('#lists li[data-listid="' + newList.list_id + '"]');
+				UI.changeClass4ani( target, 'list' );
+				Util.addClass( target, 'active');
+
+				// 给这个list制造空的todos的localcache
+				Seed.cacaheToLocal( newList.list_id, '' );
+				// 切换list的激活状态
+				Util.Event.trigger(target, 'click');
+				// 注  点击之后会发生addlist的input的blur事件
+
+				// 清空新建表单的内容
+				var newListInput = Util.qs('#add-list input');
+				newListInput.value = '';
+				Util.Event.trigger( newListInput, 'blur' );
 			}
 		}
 	}
@@ -95,7 +116,7 @@ define(function(require, exports, module){
 		Seed.allMityOp( deleteListFromRemote, deleteListFromLocal, param, true);
 
 		function deleteListFromRemote( param ){
-			Util.ajaxPost( Conf.listUrl, param, function(){
+			Util.ajaxPost( Conf.listUrl, param, function( data ){
 				if( data.error_code === 0 ){
 					cbDeleteList( param );
 				}
@@ -107,6 +128,7 @@ define(function(require, exports, module){
 			});
 		}
 		function deleteListFromLocal( param ){
+			var listId = param.list_id;
 			cbDeleteList( param );
 			var storedList = [];
 			if( window.localStorage[ Seed.listsKey ] ){
@@ -185,8 +207,9 @@ define(function(require, exports, module){
 					cbRenderAll( lists );
 				});
 
-				var storageListStr = JSON.stringify( lists );
-				window.localStorage['lists'] = storageListStr;
+				// var storageListStr = JSON.stringify( lists );
+				// window.localStorage['lists'] = storageListStr;
+				Seed.cacaheToLocal( 'lists', lists);
 			}
 				
 
@@ -247,7 +270,7 @@ define(function(require, exports, module){
 						Util.addClass( listNode, 'active' );
 						Todo.get( Seed.token, listNode.dataset.listid );
 						console.log( '你点击的列表节点的子节点的className是: ' + target.className );
-						// break; 
+						// break;
 				}
 			});
 		}

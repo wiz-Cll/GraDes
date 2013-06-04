@@ -200,7 +200,7 @@ define(function( require, exports, module){
 						// callBack( data );
 					}
 					catch(err){
-						showTip('解析返回信息时发生错误： ' + err);
+						console.log('解析返回信息时发生错误： ' + err);
 					}
 				}
 				else{
@@ -229,7 +229,7 @@ define(function( require, exports, module){
 		switch( statusCode ){
 			// case ''
 		}
-		showTip( state );
+		console.log( state );
 	}
 
 

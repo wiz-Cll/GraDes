@@ -2,7 +2,7 @@ define(function(require, exports, module){
 	var Util = require('./Util');
 
 
-	var token = '5E8A7EC96A50841BC188F9AD39973C9D';
+	var token = '41E09A93C35BF3C8F3E4E6DE424C409A';
 	var listsKey = 'lists';
 	function showTip( str ){
 		// 用户提示与反馈
@@ -11,7 +11,6 @@ define(function(require, exports, module){
 
 		/* 
 		 * 获取tip节点,然后查看是否正在transition中,如果还在transition,说明是连续来了两个消息
-		 * 
 		 * 待完善,先做点工作上的事情吧
 		 * 
 		 * 
@@ -88,7 +87,11 @@ define(function(require, exports, module){
 	// }
 
 	function cacaheToLocal( key, value ){
-		window.localStorage[ key ] = JSON.Stringify( value );
+		console.log('缓存的key是： ');
+		console.log( key );
+		console.log('缓存的value是： ');
+		console.log( value );
+		window.localStorage[ key ] = JSON.stringify( value );
 	}
 
 	function writeIntoChangeList( newChangeObj ){

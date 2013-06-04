@@ -40,16 +40,22 @@ define( function( require, exports, module){
 				switchTodos( listid );
 			}
 			else if( Seed.isStorageCached( listid ) ){
-				var localCachedTodoData = JSON.parse( window.localStorage[ listid ] );
-				cbGetTodos( localCachedTodoData, listid  );
-				Seed.showTip('正在从本地存储中获取数据```');
+				var localCachedTodoStr =  window.localStorage[ listid ];
+				if( !!localCachedTodoStr ){
+					var localCachedTodoData = JSON.parse( window.localStorage[ listid ] );
+					cbGetTodos(  listid, localCachedTodoData );
+					Seed.showTip('正在从本地存储中获取数据```');
+				}
+				else {
+					Seed.showTip('该列表无事务');
+				}
 			}
 			else if(blNetFirst){
 				// 提示 从本地获取失败
 				Seed.showTip('本地也咩有```');
 			}
 			else{
-				getTodosFromRemote( token , listid );
+				getTodosFromRemote( param , listid );
 			}
 		}
 
@@ -63,11 +69,14 @@ define( function( require, exports, module){
 
 				var cbRenderAllTodos = switchTodos;
 
-				UI.renderAll( data.events, domNode, UI.renderSingalTodo, function(){
+				UI.renderAll( todos, domNode, UI.renderSingalTodo, function(){
 					// 渲染后的回调,将todos显示出来
 					cbRenderAllTodos( listid );
 					// 将todos存储
-					Seed.cacaheToLocal( listid, data);
+					if( !todos ){
+						todos = '';
+					}
+					Seed.cacaheToLocal( listid, todos );
 				});
 			return false;
 		}
@@ -118,7 +127,7 @@ define( function( require, exports, module){
 					event_completed: false
 				};
 				UI.renderSingalTodo( data.event, null, ctnNode);
-				window.localStorage[newTodo] = JSON.stringify( newTodo );
+				// window.localStorage[newTodo] = JSON.stringify( newTodo );
 			}
 		}
 	}
