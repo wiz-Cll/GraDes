@@ -6,6 +6,118 @@ define( function( require, exports, module){
 	var Conf = require('./Config');
 	var Valid = require('./Valid');
 
+
+	function newTodo( token, list_id, todo_str){
+		var param = {
+			action: 'new',
+			token: token,
+			list_id: list_id,
+			event_content: todo_str
+		};
+
+		Seed.allMityOp( newToRemote, newToLocal, param, true );
+		function newToRemote( param ){
+			Util.ajaxPost( Conf.eventUrl, param, function( data ){
+				if( data.error_code === 0 ){
+					param.evetn_id = data.evetn_id;
+					cbNewTodo( param );
+				}
+				else{
+					var errMsg = Util.errMap[ data.error_code ];
+					Seed.showTip( errMsg );
+				}
+			});
+		}
+		function newToLocal( param ){
+			param.evetn_id = ( new Date() ).valueOf();
+			cbNewTodo( param );
+
+			// 加入到changelist
+			var newChangeObj = {
+				action: 'new',
+				type:'todo',
+				url: Conf.eventUrl,
+				obj: param
+			};
+
+			Seed.writeIntoChangeList( newChangeObj );
+		}
+		
+
+
+		function cbNewTodo( param ){
+			// 渲染一个新的todo
+			var ctnNode =Util.qs('.todos[data-listid="' + list_id + '"]');
+			var newTodo = {
+				event_id: param.event_id,
+				event_content: param.event_content,
+				event_completed: false
+			};
+			UI.renderSingalTodo( param, null, ctnNode);
+
+			// 缓存到本地存储
+			var listId = param.list_id;
+			var todoArr = [];
+			if( Seed.isStorageCached( listId ) ){
+				var todoStr = window.localStorage[ listId ];
+				todoArr = JSON.parse( todoStr );
+			}
+			else{
+
+			}
+			todoArr.push( newTodo );
+
+			Seed.cacaheToLocal( listId, todoArr );
+
+			// 清空添加的输入框
+			var todoInput = Util.qs('#todo-input');
+			todoInput.value = '';
+			todoInput.focus();
+		}
+	}
+
+	function deleteTodo(){
+
+	}
+	function modifyTodo(){
+
+	}
+	function completeTodo( token, listId ){
+		var param = {
+			action: 'completed',
+			token: token,
+			list_id: listId
+		};
+
+		Seed.allMityOp( completeToRemote, completeToLocal, param, true );
+
+		function completeToRemote(param){
+			Util.ajaxPost( Conf.eventUrl, param, function( data ){
+				if( data.error_code === 0 ){
+					cbComplete( param );
+				}
+				else{
+					var errMsg = Util.errMap[ data.error_code ];
+					Seed.showTip( errMsg );
+				}
+			});
+		}
+		function completeToLocal(param){
+			var newChangeObj = {
+				action: 'completed',
+				type: 'todo',
+				obj: param
+			}
+			Seed.writeIntoChangeList( newChangeObj );
+		}
+		function cbComplete(param){
+
+		}
+	}
+	function startTodo(){
+
+	}
+
 	/* 
 	 * @func 获取todos
 	 * @param token, listid, blNetFirst:是否优先从网络刷新  blNetMust: 是否必须从网络刷新
@@ -104,33 +216,7 @@ define( function( require, exports, module){
 		 */
 	}
 
-	function createTodo( token, list_id, todo_str){
-		var param = {
-			action: 'new',
-			token: token,
-			list_id: list_id,
-			event_content: todo_str
-		};
-		Util.ajaxPost( Conf.eventUrl, param, function( data ){
-			console.log( '新建todo返回的数据是: ' + data );
-			cbCreateTodo(data);
-		});
-
-
-		function cbCreateTodo( data ){
-			if( data.error_code === 0){
-				var ctnNode =Util.qs('todos[data-listid="' + list_id + '"]');
-
-				var newTodo = {
-					event_id: data.event_id,
-					event_content: todo_str,
-					event_completed: false
-				};
-				UI.renderSingalTodo( data.event, null, ctnNode);
-				// window.localStorage[newTodo] = JSON.stringify( newTodo );
-			}
-		}
-	}
+	
 
 	function bindHandler(){
 
@@ -147,7 +233,7 @@ define( function( require, exports, module){
 					console.log( '用户键入的列表名称是： ' + e.target.value );
 					todoContent = e.target.value;
 					var listId = Util.qs('.list.active').dataset.listid;
-					createTodo( Seed.token, listId, todoContent);
+					newTodo( Seed.token, listId, todoContent);
 				}
 			});
 		}
@@ -155,6 +241,6 @@ define( function( require, exports, module){
 
 	exports.get = getTodos;
 	exports.bind = bindHandler;
-	exports.create = createTodo;
+	exports.new = newTodo;
 
 });

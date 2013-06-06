@@ -232,6 +232,19 @@ define(function( require, exports, module){
 		console.log( state );
 	}
 
+	function trim( str ){
+		if( String.prototype.trim ){
+			return str.trim();
+		}
+		else{
+			return trimeForIE( str );
+		}
+
+		function trimeForIE( str ){
+			return str;
+		}
+	}
+
 
 	var errMap = {
 		1:	'未知错误',
@@ -272,6 +285,7 @@ define(function( require, exports, module){
 
 	// exports.showTip = showTip;
 	exports.show = show;
+	exports.trim = trim;
 
 	exports.Event = Event;
 	exports.errMap = errMap;

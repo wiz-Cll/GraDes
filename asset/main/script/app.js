@@ -8,7 +8,7 @@ define(function( require, exports){
 
 	window.onload = function(){
 		UI.init();
-		List.bind();
+		// List.bind();
 		List.getLists( Seed.token, true );
 
 		Todo.bind();

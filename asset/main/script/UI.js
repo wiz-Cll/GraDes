@@ -97,7 +97,7 @@ define( function( require, exports, module){
 		// }
 		// 里面放置列表图标 和 删除按钮
 		var listpre = '<div class="listpre"></div>';
-		var listname = '<div class="listname">'+ list.list_name + '</div>';
+		var listname = '<div class="listname">'+ list.list_name + '</div>' + '<input type="text" class="listname-input" value="'+ list.list_name + '" />';
 		var listshare = '<div class="listshare"> + </div>';
 		var listevents = '<div class="listtodos">' + list.event_total + '</div>';
 		var footer = '</li>';

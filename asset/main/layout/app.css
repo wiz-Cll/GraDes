@@ -176,6 +176,10 @@ nav{
 	white-space: nowrap; 
 }
 
+.listname-input{
+	display: none;
+}
+
 .list .listshare{
 	display: none;
 }
@@ -190,6 +194,15 @@ nav{
 .list.active .listshare{
 	display: inline-block;
 }
+
+.list.editing .listname-input{
+	display: inline-block;
+}
+
+.list.active.editing .listname{
+	display: none;
+}
+
 
 #add-list{
 	box-sizing: content-box;

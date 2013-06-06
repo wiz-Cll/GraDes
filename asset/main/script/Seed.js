@@ -2,7 +2,7 @@ define(function(require, exports, module){
 	var Util = require('./Util');
 
 
-	var token = '41E09A93C35BF3C8F3E4E6DE424C409A';
+	var token = '0F3C2AD1471269848D15C14B37FDE7B6';
 	var listsKey = 'lists';
 	function showTip( str ){
 		// 用户提示与反馈
@@ -104,7 +104,7 @@ define(function(require, exports, module){
 		}
 		changeArr.push( newChangeObj );
 
-		this.cacaheToLocal( 'changeList', JSON.stringify( changeArr ) );
+		this.cacaheToLocal( 'changeList', changeArr );
 
 	}
 
@@ -117,4 +117,5 @@ define(function(require, exports, module){
 	exports.allMityOp = allMityOp;
 
 	exports.cacaheToLocal = cacaheToLocal;
+	exports.writeIntoChangeList = writeIntoChangeList;
 });
