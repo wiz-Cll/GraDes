@@ -85,12 +85,12 @@ body{
   -webkit-transform: translateZ(-2em) rotateX(90deg);
 }
 .trans:nth-child(3){
-  -webkit-transform-origin: 50% 100%;
-  -webkit-transform: translateZ(-2em) rotateX(-90deg);
+  -webkit-transform-origin: 50% 50%;
+  -webkit-transform: translateZ(-2em) rotateX(180deg);
 }
 .trans:nth-child(4){
-  -webkit-transform-origin: 0% 50%;
-  -webkit-transform: translateZ(-2em) rotateX(180deg);
+  -webkit-transform-origin: 50% 100%;
+  -webkit-transform: translateZ(-2em) rotateX(270deg);
 }
 
 
@@ -141,7 +141,7 @@ body{
 
 .btn{
   display: inline-block;
-  padding: 3px 5px;
+  padding: 3px 8px;
   margin: 2px;
   background: #10A296;
   cursor: pointer;

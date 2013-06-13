@@ -12,4 +12,3 @@ define(function( require, exports, module ){
 	exports.listUrl = listUrl;
 	exports.eventUrl = eventUrl;
 });
-

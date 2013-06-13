@@ -11,3 +11,14 @@
 	/*-pie-background: linear-gradient(#CCC, #EEE); /*PIE*/
 	display: none;
 }
+
+
+.left-triangle{
+	width: 0;
+	height: 0;
+	border-top: 16px solid transparent;
+	border-right: 32px solid #6FC1D2;
+	border-bottom: 16px solid transparent;
+	/*-webkit-transform: rotate(-45deg);*/
+	/*transform: rotate(-45deg);*/
+}

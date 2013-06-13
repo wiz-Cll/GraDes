@@ -131,10 +131,13 @@ define( function( require, exports, module){
 
 		// todoPre  应该分为 已完成  和 未完成
 		// console.log( typeof todo.event_completed );
-		var doneOrNot = todo.event_completed ? 'checked' : '';
+		var doneOrNot = todo.event_completed ? ' checked' : '';
 
 		// var header = '<ul>'
-		var todoPre = '<li class="todo" data-todoid="' + todo.event_id + '"> <div class="todopre"><input type="checkbox" class="" value="' + doneOrNot + '" /> </div>';
+
+		// var todoPre = '<li class="todo" data-todoid="' + todo.event_id + '"> <div class="todopre"><input type="checkbox" class="" data-todoid="'+ todo.event_id +'" ' + doneOrNot + ' /> </div>';
+		var todoPre = '<li class="todo" data-todoid="' + todo.event_id + '"> <div class="todopre'+doneOrNot+'" data-todoid="'+ todo.event_id +'" > </div>';
+
 		var todoTail = '<div class="todotail"></div>';
 
 		var todoBody = '<div class="todobody">' + todo.event_content + '</div> </li>';
@@ -144,7 +147,14 @@ define( function( require, exports, module){
 		htmlstr += todoPre + todoTail + todoBody;
 
 		if( ctnNode ){
-			ctnNode.innerHTML += htmlstr;
+			// 未完成的放在表中
+			if( doneOrNot ){
+				ctnNode.innerHTML += htmlstr;
+			}
+			else{
+				// 已完成的放在achieve中
+				
+			}
 			// console.log( ctnNode.innerHTML );
 			// console.log( htmlstr );
 			return false;
@@ -154,6 +164,15 @@ define( function( require, exports, module){
 		}
 	}
 
+	function changeTotal( selector, value){
+		Util.qs( selector ).innerText = value;
+	}
+
+	function completeTodo( todoId ){
+		// 
+		console.log( '该todo应该被完成！' + todoId );
+		// 将已完成的todo放在achieve中
+	}
 
 
 	/*
@@ -173,8 +192,13 @@ define( function( require, exports, module){
 	// exports.bindHandler = bindHandler;
 
 	exports.renderAll = renderAll;
+
 	exports.renderSingleList = renderSingleList;
+	exports.changeTotal = changeTotal;
+
 	exports.renderSingalTodo = renderSingalTodo;
+	exports.completeTodo = completeTodo;
+	
 	exports.changeClass4ani = changeClass4ani;
 	// exports.init = initUI;
 });

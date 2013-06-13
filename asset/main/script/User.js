@@ -1,5 +1,6 @@
 define( function( require, exports, module){
 	var Util = require( './Util' );
+	var Seed = require( './Seed' );
 	var Conf = require( './Config' );
 	var Valid = require('./Valid');
 
@@ -15,7 +16,7 @@ define( function( require, exports, module){
 			username: this.username,
 			password: this.password
 		};
-		Util.ajaxPost( Conf.userUrl, param, callback);
+		Seed.ajaxPost( Conf.userUrl, param, callback);
 	};
 
 	User.prototype.signup = function(){
@@ -27,7 +28,7 @@ define( function( require, exports, module){
 		function callBackSignup( data, status){
 			console.log(data);
 		}
-		Util.ajaxPost( Conf.userUrl, param, callBackSignup);
+		Seed.ajaxPost( Conf.userUrl, param, callBackSignup);
 	};
 
 	User.prototype.logout = function(){
@@ -38,7 +39,7 @@ define( function( require, exports, module){
 		function callBackLogout( data, status){
 			console.log(data);
 		}
-		Util.ajaxPost( Conf.userUrl, param, callBackLogout);
+		Seed.ajaxPost( Conf.userUrl, param, callBackLogout);
 	};
 
 	User.prototype.getUserName = function(){
@@ -50,7 +51,7 @@ define( function( require, exports, module){
 		function callBackGetUserName( data, status){
 			console.log(data);
 		}
-		Util.ajaxPost( Conf.userUrl, param, callBackGetUserName);
+		Seed.ajaxPost( Conf.userUrl, param, callBackGetUserName);
 	};
 
 
@@ -64,7 +65,7 @@ define( function( require, exports, module){
 		function callBackChangePass( data, status){
 			console.log(data);
 		}
-		Util.ajaxPost( Conf.userUrl, param, callBackChangePass);
+		Seed.ajaxPost( Conf.userUrl, param, callBackChangePass);
 	};
 
 
@@ -74,12 +75,17 @@ define( function( require, exports, module){
 			var unV = Valid.userName( arguments[0] );
 			var pwdV = Valid.pwd( arguments[1] );
 			if( unV.von ){
-
+				if( pwdV.von ){
+					return new User( arguments );
+				}
+				else{
+					Seed.showTip( pwdV.tip );
+				}
 			}
 			else{
-
+				Seed.showTip( unV.tip );
 			}
-			return new User( arguments );
+			return false;
 		}
 	};
 

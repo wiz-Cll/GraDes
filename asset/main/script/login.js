@@ -18,14 +18,23 @@ define(function( require ){
 		Util.Event.addHandler( Util.qs('.btn') ,'click', function(){
 			Util.show( loading );
 			var userEntity = User.init( usernameInput.value, pwdInput.value );
+			var encriptedPass = Util.md5( pwdInput.value );
 			if( userEntity === false ){
 				// 说明未通过验证 没有生成用户实例
 				return false;
 			}
 			else{
+
+				Seed.allMityOp( userEntity.login, localOauth, callBackLogin, true );
+
 				userEntity.login( callBackLogin );
-				function callBackLogin( data, status){
+				function callBackLogin( data, status ){
 					if( data.error_code === 0){
+						// 将验证通过的用户名和密码存储在localStorage
+						var encriptedPass = Util.md5( usernameInput.value.split('@')[0] + pwdInput.value +usernameInput.value.split('@')[0]);
+						Seed.cacaheToLocal( usernameInput.value, encriptedPass);
+
+						// 动画切换
 						login.className += ' loginani';
 						userinfo.className += ' infoani';
 						setTimeout(function() {
@@ -36,12 +45,11 @@ define(function( require ){
 						},aniTime);
 					}
 					else{
-						console.log( data.message);
+						console.log( data.message );
 					}
 				}
 			}
 		});
-
 	};
 
 });

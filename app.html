@@ -5,11 +5,15 @@
 		<meta charset="utf-8"/>
 		<link rel="stylesheet" type="text/css" href="asset/main/layout/lib.css" media="all" />
 		<link rel="stylesheet" type="text/css" href="asset/main/layout/app.css" media="all" />
+		<!--[if lte IE 8]>
+		<link rel="stylesheet" type="text/css" href="asset/main/layout/lowpatch.css" media="all" />
+		<![endif]-->
 		<script></script>
 	</head>
 	<body>
 		<header>
 			<div id="tip" class="stage_0">
+			<!-- <div id="tip" class="stage_3"> -->
 				<div class="trans"></div>
 				<div class="trans"></div>
 				<div class="trans"></div>
@@ -32,17 +36,72 @@
 			</div>
 		</aside>
 		<section>
-			<div id="input-ctn">
-				<div class="addons">
-					<a class="">日历</a><a class="">星标</a>
+			<div id="todoOp-ctn">
+				<div id="new-todo-ctn">
+					<div class="addons">
+						<a class="">日历</a><a class="">星标</a>
+					</div>
+					<input id="todo-input" autofocus placeholder="在这里添加一项事务，按Enter确认创建" />
 				</div>
-				<input id="todo-input" autofocus placeholder="在这里添加一项事务，按Enter确认创建" />
+				<div id="complete-todo-btn"></div>
 
 			</div>
 			<div class="todoctn">
+				<ul class="todos active">
+					<li class="todo" data-todoid="">
+						<div class="todopre">
+							<!-- <input type="checkbox" class="" data-todoid=""  /> -->
+						</div>
+						<div class="todotail"></div>
+						<div class="todobody"></div>
+					</li>
+					<li class="todo" data-todoid="">
+						<div class="todopre checked">
+							<!-- <input type="checkbox" class="" data-todoid=""  /> -->
+						</div>
+						<div class="todotail"></div>
+						<div class="todobody"></div>
+					</li>
+				</ul>
 				
 			</div>
 		</section>
+		<div id="fieldCtn">
+			<!-- <div class="field show" id="list-share-field"> -->
+			<!-- 分享菜单 -->
+			<div class="field" id="list-share-field">
+				<div class="left-triangle"></div>
+				<div class="share-content">
+					<input type="text" id="share-email" placeholder="填入分享的Email"/>
+					<a class="btn" >确定</a>
+				</div>
+			</div>
+				
+			<!-- 成就归档 -->
+			<!-- <div id="achieve" class="field show"> -->
+			<div id="achieve" class="field">
+				<div class="top-triangle"></div>
+				<div>
+					<ul class="completedTodo">
+						<li class="todo" data-todoid="BFE189272D52239A9CC0368FF75D6E8F"> <div class="todopre checked" data-todoid="BFE189272D52239A9CC0368FF75D6E8F"> </div><div class="todotail"></div><div class="todobody">create the first todo in inbox</div> </li>
+						<li class="todo" data-todoid="BFE189272D52239A9CC0368FF75D6E8F"> <div class="todopre checked" data-todoid="BFE189272D52239A9CC0368FF75D6E8F"> </div><div class="todotail"></div><div class="todobody">create the first todo in inbox</div> </li>
+					</ul>
+				</div>
+			</div>
+
+			<!-- 临时登陆 -->
+			<div class="field">
+				<form>
+					<label class="forlow">UserName</label>
+					<input id="username" type="text" placeholder="UserName" class="username" />
+					<label class="forlow">Password</label>
+					<input id="password" type="password" placeholder="Password" class="passwd" />
+					<a class="btn" id="login-btn">Login</a>
+				</form>
+			</div>
+		</div>
+
+
 		<!-- <footer></footer> -->
 
 		<script src="asset/sea-module/seajs/1.3.0/sea.js"></script>

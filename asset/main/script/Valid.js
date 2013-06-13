@@ -6,11 +6,22 @@ define( function(require, exports, module){
 		// 1200-1300为列表名问题
 		// 1300-1400为事务问题
 		1010: '用户名为空！',
-		1015: '不是正确的邮箱'
+		1015: '不是正确的邮箱',
+		1020: '密码为空！',
+		1025: '密码长度过短：至少6个字符'
 	};
 
 	function checkEmail( str ){
 		return /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(str);
+	}
+
+	function validPass( str ){
+		if( str.length < 6 ){
+			return false;
+		}
+		else{
+			return true;
+		}
 	}
 	function userName( str ){
 		var result = {
@@ -33,14 +44,24 @@ define( function(require, exports, module){
 	}
 
 	function pwd( str ){
-		var result = {};
+		var result = {
+			von: false,
+			tip: undefined
+		};
 
 		if( str ){
-
+			if( validPass(str) ){
+				result.von = true;
+			}
+			else{
+				result.tip = errMsg[1025];
+			}
 		}
 		else{
-			Util.tip( result.tip );
+			result.tip = errMsg[1020];
 		}
+
+		return result;
 	}
 
 	exports.userName = userName;

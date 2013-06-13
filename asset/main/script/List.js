@@ -29,7 +29,7 @@ define(function(require, exports, module){
 		Seed.allMityOp( newListToRemote, newListToLocal, param, true );
 
 		function newListToRemote( param ){
-			Util.ajaxPost( Conf.listUrl, param ,function( data ){
+			Seed.ajaxPost( Conf.listUrl, param ,function( data ){
 				if( data.error_code === 0){
 
 					var newList = {
@@ -39,7 +39,7 @@ define(function(require, exports, module){
 					};
 					cbNewList( newList );
 				} else {
-					Seed.showTip( Util.errMap[ error_code ] );
+					// Seed.showTip( Util.errMap[ error_code ] );
 				}
 			});
 		}
@@ -116,13 +116,13 @@ define(function(require, exports, module){
 		Seed.allMityOp( deleteListFromRemote, deleteListFromLocal, param, true);
 
 		function deleteListFromRemote( param ){
-			Util.ajaxPost( Conf.listUrl, param, function( data ){
+			Seed.ajaxPost( Conf.listUrl, param, function( data ){
 				if( data.error_code === 0 ){
 					cbDeleteList( param );
 				}
 				else{
 					var localErrMap = {};
-					Seed.showTip( Util.errMap[ data.error_code ]);
+					// Seed.showTip( Util.errMap[ data.error_code ]);
 				}
 				return false;
 			});
@@ -130,23 +130,6 @@ define(function(require, exports, module){
 		function deleteListFromLocal( param ){
 			var listId = param.list_id;
 			cbDeleteList( param );
-			var storedList = [];
-			if( Seed.isStorageCached( Seed.listsKey ) ){
-				var storedList = JSON.parse( window.localStorage[ Seed.listsKey ] );
-
-				console.log('本地存储的所有列表如下： '+ storedList + ',共有多少个呢```' + storedList.length);
-				for( var i in storedList ){
-					if( storedList[i].list_id === listId ){
-						storedList.splice(i,1);
-						break;
-					}
-				}
-
-				localStorage[  Seed.listsKey ] = JSON.stringify( storedList );
-			} else {
-				Seed.showTip('本地没有数据');
-			}
-
 			var newChangeObj = {
 				action: 'del',
 				url: Conf.listUrl,
@@ -158,6 +141,8 @@ define(function(require, exports, module){
 
 		function cbDeleteList( param ){
 			var listId = param.list_id;
+
+
 			// 将已删除的list的节点删除,或隐藏
 			// todo 删除后的动画
 			// 删除的后续操作也完成了: 同时将localstorage中的对象清除掉
@@ -166,7 +151,10 @@ define(function(require, exports, module){
 			Util.removeClass( listToDel, 'active');
 			listToDel.style.display = 'none';
 			console.log( '刚才删除的列表的节点是: ' + listToDel );
+
+			// 将缓存的list删除
 			// todo lists的键值加密和解密
+			Seed.removeFromLocal( Seed.listsKey, 'list_id', listId );
 			
 			return;
 		}
@@ -179,7 +167,7 @@ define(function(require, exports, module){
 		};
 		Seed.allMityOp( getListsFromRemote, getListsFromStorage, param, blNetFirst, blNetMust );
 		function getListsFromRemote( param ){
-			Util.ajaxPost( Conf.listUrl, param , function( data ){
+			Seed.ajaxPost( Conf.listUrl, param , function( data ){
 				if( data.error_code === 0 ){
 					cbGetLists(data.lists);
 				} else {
@@ -237,13 +225,13 @@ define(function(require, exports, module){
 		Seed.allMityOp( modifyToRemote, modifyToLocal, param, true);
 
 		function modifyToRemote( param ){
-			Util.ajaxPost( Conf.listUrl, param, function( data ){
+			Seed.ajaxPost( Conf.listUrl, param, function( data ){
 				if( data.error_code === 0 ){
 					cbModify( param );
 				}
 				else{
 					var errMsg = Util.errMap[ data.error_code ];
-					Seed.showTip( errMsg );
+					// Seed.showTip( errMsg );
 				}
 			});
 		}
@@ -302,7 +290,7 @@ define(function(require, exports, module){
 
 		// 点击list的ul的操作
 		function bindListsClickHandler(){
-			Util.Event.addHandler( Util.qs('#lists'), 'click',function( e ){
+			Util.Event.addHandler( Util.qs('#lists'), 'click', function( e ){
 				var target = Util.Event.getTarget( e );
 				switch( target.className ){
 					case 'list':
