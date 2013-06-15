@@ -11,6 +11,69 @@ body{
 	background: -ms-radial-gradient(center, ellipse cover,  #accded 0%,#4ea3e5 100%);
 	background: radial-gradient(ellipse at center,  #accded 0%,#4ea3e5 100%);	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#accded', endColorstr='#4ea3e5',GradientType=1 );*/
 }
+header, footer{
+	width: 100%;
+	/*height: 20px;*/
+	height: 2em;
+	outline: 1px solid #bbb;
+	background: #7ADCDB;
+
+	-webkit-perspective: 400px;
+}
+#tip{
+	position: relative;
+	width: 600px;
+	height: 100%;
+	margin: 0 auto;
+	/*background: #ef7f7f;*/
+
+	-webkit-transform-style: preserve-3d;
+	-webkit-transform-origin: 50% 100%;
+	-webkit-backface-visibility: hidden;
+	-webkit-transition: all 300ms ease-out;
+}
+#tip.deactive{
+	display: none;
+}
+.trans{
+	background: #7ADCDB;
+	/*background: rgba(0,0,0,0);*/
+	box-shadow: none;
+}
+/*test*/
+/*header:hover #tip{
+	-webkit-transform:  translateY(-100%)  translateZ(0em) rotateX(-270deg);
+}*/
+
+.trans.infoStyle{
+	box-sizing: border-box;
+	padding: 0.5em;
+	color: #fff;
+	text-shadow: 0 0 2px #ef7f7f;
+	background: #1fbba6;
+	border-radius: ;
+	color: #fff;
+}
+
+#tip.stage_0{
+	/*-webkit-transform:  translateY(0%)  translateZ(-2em) rotateX(-90deg);*/
+}
+
+#tip.stage_1{
+	-webkit-transform: translateY(0%) translateZ(-2em) rotateX(-90deg);
+}
+#tip.stage_2{
+	-webkit-transform:  translateY(-100%) translateZ(-2em) rotateX(-180deg);
+}
+#tip.stage_3{
+	-webkit-transform: translateY(-100%) translateZ(0em) rotateX(-270deg);
+}
+/*  -------------  endof tip  -----------------*/
+
+
+
+
+
 .forani{
 	/*perspective: 600px;*/
 	padding: 80px 0;
@@ -97,7 +160,8 @@ body{
 	height: 90%;
 	z-index: 110;
 	border-radius: 50%;
-	background: url('../img/snip.png') center center no-repeat ;
+	background: url('../img/Snip.png') center center no-repeat ;
+	/*background: url('../img/defaultavatar.jpg') center;*/
 	box-shadow: 0 0 4px rgba(0,0,0,0.5);
 	/*border: 1px dashed #ACCDED;*/
 }
@@ -156,6 +220,21 @@ body{
 	-o-box-shadow: 0 0 0px 2px rgba(0,0,0,0.25);
 	box-shadow: 0 0 0px 2px rgba(0,0,0,0.25);*/
 }
+#login-form{
+	display: block;
+}
+#registe-form{
+	display: none;
+}
+
+.formctn.reg #registe-form{
+	display: block;
+}
+.formctn.reg #login-form{
+	display: none;
+}
+
+
 
 .username, .passwd{
 	/*position: absolute;*/
@@ -194,16 +273,17 @@ body{
 	float: right;
 	/*width: 80%;*/
 	/*height: 1.25em;*/
-	margin: 0.5em;
-	padding: 0.3em 0.75em;
+	margin: 0.5em 1em ;
+	padding: 0.25em 0.75em;
 	outline: none;
 	/*border-radius: 0.5em;*/
 	border: 1px solid #ccc;
 	font-size: 1.25em;
-	color: #999;
+	color: #fff;
 	letter-spacing: 0.0625em;
 	text-align: center;
 	cursor: pointer;
+
 	-webkit-wfms-transtion: all 400ms ease;
 	-moz-wfms-transtion: all 400ms ease;
 	-ms-wfms-transtion: all 400ms ease;
@@ -215,6 +295,12 @@ body{
 }
 .btn:active{
 	box-shadow: inset 0 0 5px rgba(0,0,0,0.35);
+}
+#to-register, #to-login{
+	display: inline-block;
+	margin: 2em 1em 0 1em;
+	font-size: 0.75em;
+	color: #10A296;
 }
 #click-login:target ~ .login{
 	-webkit-animation-name: fadeInLeft;
@@ -229,6 +315,12 @@ body{
 	animation-delay: .1s;
 }
 
+.welcome{
+	text-align: center;
+	width: 90%;
+	margin: 0 auto;
+	color: #10A296;
+}
 
 
 

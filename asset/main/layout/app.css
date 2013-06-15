@@ -56,8 +56,9 @@ header{
 	padding: 0.5em;
 	color: #fff;
 	text-shadow: 0 0 2px #ef7f7f;
-	background: #6FC1D2;
-	border-radius: 
+	background: #1fbba6;
+	border-radius: ;
+	color: #fff;
 }
 
 #tip.stage_0{
@@ -140,7 +141,7 @@ section{
 nav{
 	position: fixed;
 	top: 0;
-	z-index: 1100;
+	z-index: 900;
 	box-sizing: border-box;
 	/*width: 100%;*/
 	width: 300px;
@@ -163,15 +164,16 @@ nav{
 	padding: 0.5em;
 	border: none;
 	/*-webkit-transition: all 500ms 100ms ease;*/
-	-webkit-transition: margin 500ms ease-in 100ms, background 300ms ease;
+	-webkit-transition: margin 500ms ease-in 100ms, background 300ms ease, color 300ms ease;
 	/*border-bottom: 2px dotted rgba(232,112,78,0.5);*/
-	border-bottom: 2px solid rgba(232,112,78,0.5);
+	border-bottom: 2px solid rgba(255,255,255,0.625);
 }
 
 #lists .list:hover{
 	/*background: red;*/
 	cursor: pointer;
-	background: #6FC1D2;
+	background: #1fbba6;
+	color: #fff;
 }
 
 .listpre, .listname, .listshare, .listtodos{
@@ -236,14 +238,16 @@ nav{
 #add-list input, #add-list.editing p{
 	display: none;
 }
-#display p, #add-list.editing input{
+#add-list p, #add-list.editing input{
 	display: block;
+
 }
 /*  endof */
 #add-list.editing input{
 	width: 100%;
 	border: none;
 	outline: none;
+	color: #fff;
 	font-size: 1em;
 	background: #E8704E;
 }
@@ -273,6 +277,12 @@ nav{
 	-webkit-transform: perspective(300px) rotateX(-25deg);
 }
 
+.icon-deletelist{
+	float: right;
+	background-image: url(../img/sprite.png);
+	background-position: -148px 0px;
+}
+
 /*  ------ end of experimental -----*/
 
 /*  --------- 输入框的样式 -----------*/
@@ -297,11 +307,12 @@ nav{
 	height: 2em;
 	cursor: pointer;
 
-	background: #accded
+	background: #accded;
 }
 
 #todo-input{
 	display: block;
+	visibility: hidden;
 	/*width: 100%;*/
 	box-sizing: border-box;
 	padding: 4px;
@@ -352,50 +363,70 @@ nav{
 
 
 .todo{
-	background: #6FC1D2;
+	background: #1cc4ad;
 	padding: 0;
 	border-radius: 8px;
-	height: 2em;
+	height: 2.25em;
 	margin: 0.375em 0;
-	box-shadow: 0 0px 3px rgba(239,127,127,0.75);
+	box-shadow: 0 0px 2px rgba(239,127,127,0.35);
+	cursor: pointer;
+}
+.todo:hover .todopre{
+	background-image: url(../img/sprite.png);
+	background-position: 3px 3px;
+	width: 2.25em;
+}
+.todo:hover .todopre.checked{
+	background-image: url(../img/sprite.png);
+	background-position: -27px 3px;
+}
+.todo:hover .todotail{
+	/*background-image: url(../img/sprite.png);*/
+	/*background-position: 1px 1px;*/
+	width: 2.25em;
 }
 .todopre, .todobody, .todotail{
 	display: block;
-	height: 2em;
+	height: 2.25em;
 	*zoom: 1;
 }
 
 .todopre, .todotail{
-	width: 2em;
-	background: #ef7f7f;
+	width: 0.25em;
+	-webkit-transition: width 400ms 100ms ease;
+	-moz-transition: width 400ms 100ms ease;
+	-ms-transition: width 400ms 100ms ease;
+	-o-transition: width 400ms 100ms ease;
+	transition: width 400ms 100ms ease;
 	/*outline: 1px dashed #ccc;*/
 }
 .todopre{
 	float: left;
-	background-image: url(../img/sprite.png);
-	background-position: 1px 1px;
 	cursor: pointer;
+	background: #ef7f7f;
 	/*background: url(../img/sprite.png) 1px 1px;*/
 }
 
-.todopre.checked{
-	float: left;
-	background-image: url(../img/sprite.png);
-	background-position: -29px 1px;
-	/*background: url(../img/sprite.png) 1px 1px;*/
-}
 .todotail{
 	float: right;
+	background-color: #fad298;
+	background-image: url(../img/sprite.png);
+	background-position: -57px 3px;
+}
+
+.todotail.stared{
+	background: #fb9503;
+	background-image: url(../img/sprite.png);
+	background-position: -87px 3px;
 }
 
 .todobody{
-	margin: 0 4em;
-	height: 2em;
+	margin: 0 2.5em;
+	height: 2.25em;
+	font-size: 1em;
+	line-height: 2.25em;
+	color: #fff;
 }
-
-
-
-
 
 
 #list-share-field{
@@ -408,6 +439,65 @@ nav{
 	left: -15px;
 }
 
+/*     -----------    todo详情&笔记  -------------    */
+.note{
+	position: absolute;
+	display: inline-block;
+	visibility: hidden;
+	width: 450px;
+	min-height: 300px;
+	max-height: 550px;
+	background: #fff;
+	/*vertical-align: middle;*/
+}
+.note.active{
+	visibility: visible;
+}
+.note .close{
+	position: absolute;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	top: 0;
+	right: 0;
+	background-color: #fff;
+
+	background-image: url(../img/sprite.png);
+	background-position: -120px 1px;
+	cursor: pointer;
+}
+
+.note .tododetail{
+	box-sizing: border-box;
+	padding: 1em 2.25em 1em 1em;
+	/*height: 5em;*/
+	background: #1CC4AD;
+	color: #fff;
+}
+.tododetail p{
+	margin: 0;
+	padding: 0;
+}
+
+/*#fieldCtn{
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: -10;
+}
+
+#fieldCtn.mask{
+	z-index: 1000;
+	background: rgba(0,0,0,0.35);
+}
+#fieldCtn.show{
+	display: block;
+}
+*/
+
 
 
 #achieve{
@@ -415,6 +505,7 @@ nav{
 	max-height: 500px;
 	top: 50px;
 	right: 32px;
+	z-index: 1100;
 	background: #58C3E5;
 	cursor: pointer;
 
@@ -423,7 +514,7 @@ nav{
 
 #achieve .top-triangle{
 	position: absolute;
-	top: -16px ;
+	top: -16px;
 	right: 45px;
 }
 
@@ -444,7 +535,24 @@ nav{
 }
 
 
+#notectn{
+	display: none;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 1000;
 
+	box-sizing: border-box;
+
+	background: rgba(0,0,0,0.35);
+}
+#notectn.show{
+	display: table-cell;
+  	vertical-align: middle;
+  	/*text-align: center;*/
+}
 
 
 
@@ -458,11 +566,12 @@ nav{
 /*             ------------一些全局样式-----------              */
 
 .icon{
-	width: 16px;
-	height: 16px;
+	display: inline-block;
+	width: 2em;
+	height: 2em;
 	font-size: 100%;
 	/*background-image: ;*/
-	background-color: #ef7f7f;
+	/*background-color: #ef7f7f;*/
 	cursor: pointer;
 }
 .btn{

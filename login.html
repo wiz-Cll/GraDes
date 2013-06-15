@@ -3,9 +3,10 @@
 	<head>
 		<title></title>
 		<meta charset="utf-8"/>
-		<link rel="stylesheet" type="text/css" href="asset/main/layout/login.css" media="all" />
 		<link rel="stylesheet" type="text/css" href="asset/main/layout/animate-custom.css" media="all" />
 		<link rel="stylesheet" type="text/css" href="asset/main/layout/lib.css" media="all" />
+		<link rel="stylesheet" type="text/css" href="asset/main/layout/login.css" media="all" />
+
 		<!--[if lt IE 9]>
 		<link rel="stylesheet" type="text/css" href="src/layout/lowpatch.css" media="all" />
 		<script src="mediaquery.js"></script>
@@ -23,6 +24,7 @@
 				<div class="trans"></div>
 			</div>
 		</header>
+		
 		<div class="forani" >
 
 			<div class="login">
@@ -41,15 +43,17 @@
 						<label class="forlow">Password</label>
 						<input id="password" type="password" placeholder="Password" class="passwd" />
 						<a class="btn" id="login-btn">Login</a>
+						<a href="" id="to-register">Registe a new user</a>
 					</form>
-					<!-- <form name="registe"  id="registe-form">
+					<form name="registe"  id="registe-form">
 						<label class="forlow">UserName</label>
-						<input id="username" type="text" placeholder="UserName" class="username" />
+						<input id="reg-username" type="text" placeholder="UserName" class="username" />
 						<label class="forlow">Password</label>
-						<input id="password" type="password" placeholder="Password" class="passwd" />
-						<input id="password" type="password" placeholder="Password" class="passwd" />
-						<a class="btn" id="login-btn">Login</a>
-					</form> -->
+						<input id="reg-password" type="password" placeholder="Password" class="passwd" />
+						<input id="reg-confirm-password" type="password" placeholder="Confirm Password" class="passwd" />
+						<a class="btn" id="register-btn">Registe</a>
+						<a href="" id="to-login">Have an Account? Login</a>
+					</form>
 					<br clear="both" />
 				</div>
 			</div>
@@ -68,7 +72,7 @@
 					<form name="">
 						<label class="forlow">UserName</label>
 						<label class="forlow">Password</label>
-						<input type="password" placeholder="Welcome" class="passwd" />
+						<h2 class="welcome"></h2>
 					</form>
 					<br clear="both" />
 				</div>

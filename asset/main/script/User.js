@@ -25,8 +25,20 @@ define( function( require, exports, module){
 			username: this.username,
 			password: this.password
 		};
-		function callBackSignup( data, status){
-			console.log(data);
+		var userEntity = this;
+		function callBackSignup( data ){
+			if( data.error_code === 0 ){
+				var usernameInput = Util.qs('#username');
+				var passInput = Util.qs('#password');
+				var loginBtn = Util.qs('#login-btn');
+				usernameInput.value = userEntity.username;
+				passInput.value = userEntity.password;
+				Util.Event.trigger( loginBtn, 'click' );
+			}
+			else{
+				var errMsg = Util.errMap[ data.error_code ] || '未知错误';
+				Seed.showTip( errMsg );
+			}
 		}
 		Seed.ajaxPost( Conf.userUrl, param, callBackSignup);
 	};

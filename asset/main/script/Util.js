@@ -9,13 +9,13 @@ define(function( require, exports, module){
 	var Event = {
 		addHandler: function(element, type, handler){
 		if (element.addEventListener){
-				element.addEventListener(type, handler, false);
-			} else if (element.attachEvent){
-				element.attachEvent("on" + type, handler);
-			} else {
-				element["on" + type] = handler;
-				}
-			},
+			element.addEventListener(type, handler, false);
+		} else if (element.attachEvent){
+			element.attachEvent("on" + type, handler);
+		} else {
+			element["on" + type] = handler;
+			}
+		},
 
 			getButton: function(event){
 			if (document.implementation.hasFeature("MouseEvents", "2.0")){
@@ -272,7 +272,7 @@ define(function( require, exports, module){
 		8:	'注销失败',
 		9:	'数据依赖关系不完整',
 		10:	'指定列表不存在',
-		11:	'下层有数据',
+		11:	'列表有数据,请先删除列表中的事务',
 		12:	'不能将列表共享给自己',
 		13:	'列表数量有误',
 		14:	'该事务不存在',
@@ -281,9 +281,6 @@ define(function( require, exports, module){
 	};
 
 
-	// exports.token = token;
-	// exports.listsKey = listsKey;
-	// 暴露单个接口
 	exports.qs = qs;
 	exports.qsa = qsa;
 
@@ -295,10 +292,6 @@ define(function( require, exports, module){
 	exports.ajaxGet = ajaxGet;
 	exports.ajaxPost = ajaxPost;
 
-	// exports.isDomCached = isDomCached;
-	// exports.isStorageCached = isStorageCached;
-
-	// exports.showTip = showTip;
 	exports.show = show;
 	exports.trim = trim;
 

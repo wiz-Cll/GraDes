@@ -6,6 +6,7 @@ define(function( require, exports, module ){
 	var userUrl = serviceUrl + 'User.php';
 	var listUrl = serviceUrl + 'List.php';
 	var eventUrl = serviceUrl + 'Event.php';
+	var noteUrl = serviceUrl + 'Note.php';
 	// var signInUrl = serviceUrl + 'user.php?action=signin';
 
 	exports.userUrl = userUrl;

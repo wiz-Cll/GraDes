@@ -1,11 +1,21 @@
 define( function( require, exports, module){
 	var Util = require('./Util');
+	var Seed = require('./Seed');
 	function initUI(){
 		var aside = Util.qs('aside');
 		var section = Util.qs('section');
 		// console.log( aside.innerText );
 		// console.log( section.innerText );
 		section.style.marginLeft = aside.style.width;
+
+		var newTodoCtn = Util.qs('#new-todo-ctn');
+		var newTodoInput =  Util.qs('#todo-input');
+		var addons = Util.qs('.addons');
+		var curStyleCtn = window.getComputedStyle( newTodoCtn );
+		console.log( curStyleCtn.width );
+		var curStyleAddOn =  window.getComputedStyle( addons );
+		newTodoInput.style.width = Number( curStyleCtn.width.substr(0, curStyleCtn.width.indexOf('px')) - curStyleAddOn.width.substr(0, curStyleAddOn.width.indexOf('px')) -10 )+ 'px';
+		newTodoInput.style.visibility = 'visible';
 	}
 
 
@@ -35,6 +45,7 @@ define( function( require, exports, module){
 				for( var i= 0; i< len; i++){
 					var objItem = objArr[i];
 					htmlstr = funcRenderSingal( objItem, htmlstr, ctnNode );
+					// htmlstr = funcRenderSingal( objItem, htmlstr );
 				}
 				if( htmlstr !== false ){
 					ctnNode.innerHTML += htmlstr;
@@ -132,13 +143,12 @@ define( function( require, exports, module){
 		// todoPre  应该分为 已完成  和 未完成
 		// console.log( typeof todo.event_completed );
 		var doneOrNot = todo.event_completed ? ' checked' : '';
-
-		// var header = '<ul>'
+		var stared = todo.event_starred? ' stared' : '';
 
 		// var todoPre = '<li class="todo" data-todoid="' + todo.event_id + '"> <div class="todopre"><input type="checkbox" class="" data-todoid="'+ todo.event_id +'" ' + doneOrNot + ' /> </div>';
 		var todoPre = '<li class="todo" data-todoid="' + todo.event_id + '"> <div class="todopre'+doneOrNot+'" data-todoid="'+ todo.event_id +'" > </div>';
 
-		var todoTail = '<div class="todotail"></div>';
+		var todoTail = '<div class="todotail' + stared + '"></div>';
 
 		var todoBody = '<div class="todobody">' + todo.event_content + '</div> </li>';
 
@@ -147,13 +157,14 @@ define( function( require, exports, module){
 		htmlstr += todoPre + todoTail + todoBody;
 
 		if( ctnNode ){
-			// 未完成的放在表中
+			// 已完成的放在achieve中
 			if( doneOrNot ){
+				// 
 				ctnNode.innerHTML += htmlstr;
 			}
 			else{
-				// 已完成的放在achieve中
-				
+				ctnNode.innerHTML += htmlstr;
+				// 未完成的放在表中 
 			}
 			// console.log( ctnNode.innerHTML );
 			// console.log( htmlstr );
@@ -174,6 +185,10 @@ define( function( require, exports, module){
 		// 将已完成的todo放在achieve中
 	}
 
+	function preRenderNote( todoId ){
+
+	}
+
 
 	/*
 	 * 将来可能全部由他来实现动画
@@ -189,7 +204,6 @@ define( function( require, exports, module){
 
 	}
 	exports.init = initUI;
-	// exports.bindHandler = bindHandler;
 
 	exports.renderAll = renderAll;
 

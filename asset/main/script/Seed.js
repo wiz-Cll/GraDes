@@ -2,7 +2,7 @@ define(function(require, exports, module){
 	var Util = require('./Util');
 
 
-	var token = '3795EF8DF1B7430B9817C6FA67A5FEF0';
+	var token = window.localStorage.token;
 	var listsKey = 'lists';
 	var showTipST;
 
@@ -17,7 +17,6 @@ define(function(require, exports, module){
 		 * 
 		 * 
 		 */
-		 console.log('调用了函数');
 		var tip = Util.qs('#tip');
 		var trans = Util.qsa('#tip .trans');
 		try{
@@ -92,7 +91,7 @@ define(function(require, exports, module){
 	function allMityOp( fucRemote, funcLocal, param, blNetFirst, blNetMust){
 		if( blNetFirst ){
 			if( navigator.onLine ){
-				this.showTip('网络优先,且有网络连接');
+				// this.showTip('网络优先,且有网络连接');
 				fucRemote(  param );
 			}
 			else{
@@ -174,6 +173,12 @@ define(function(require, exports, module){
 			var cacheStr = window.localStorage[name];
 			if( !!cacheStr ){
 				cacheArr = JSON.parse( cacheStr );
+				if( cacheArr instanceof Array ){
+
+				}
+				else{
+					cacheArr = [];
+				}
 			}
 		}
 		cacheArr.push( newObj );
@@ -249,7 +254,7 @@ define(function(require, exports, module){
 		console.log( curNode );
 	}
 
-	
+
 	exports.token = token;
 	exports.listsKey = listsKey;
 

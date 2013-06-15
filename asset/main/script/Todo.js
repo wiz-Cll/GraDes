@@ -2,9 +2,10 @@ define( function( require, exports, module){
 	var Util = require('./Util');
 	var UI = require('./UI');
 	var Seed = require('./Seed');
-
 	var Conf = require('./Config');
 	var Valid = require('./Valid');
+
+	var Note = require('./Note');
 
 
 	function newTodo( token, list_id, todo_str){
@@ -107,9 +108,15 @@ define( function( require, exports, module){
 			Seed.writeIntoChangeList( newChangeObj );
 		}
 		function cbComplete(param, listId){
+
+
 			// var listId = param.list_id;
+
 			// 将todo置为完成状态
 			UI.completeTodo( param.event_id );
+			// 临时性的completetodo的ui变更
+				var curTodoPre = Util.qs('.todopre[data-todoid="' + param.event_id + '"]');
+				Util.addClass( curTodoPre,'checked' );
 
 			// 缩减list的todo数目
 			changeListTodoTotal( -1, listId )
@@ -118,25 +125,55 @@ define( function( require, exports, module){
 			Seed.changeStorageValueByKey( listId, 'event_id', param.event_id, 'event_completed', true);
 		}
 	}
-	function starTodo( token, eventId, listId ){
+	function starTodo( token, eventId, listId, blNetFirst, blNetMust  ){
 		var param = {
-			action: 'starred',
+			action: 'starrted',
 			token: token,
 			event_id: eventId
 		};
 
-		Seed.allMityOp( starToRemote, starToLocal, param, true );
+		Seed.allMityOp( starToRemote, starToLocal, param,  blNetFirst, blNetMust );
 
 		function starToRemote(param){
 			Seed.ajaxPost( Conf.eventUrl, param, function(data){
-				
+				if( data.error_code === 0 ){
+					param.isStared = data.event_starred;
+					cbStar( param, listId );
+				}
+				else{
+					var errMsg = Util.errMap[ data.error_code ] || '未知错误';
+					Seed.showTip( errMsg );
+				}
+				return false;
 			});
 		}
 		function starToLocal(param){
-
+			cbStar( param, listId );
+			var newChangeObj = {
+				action: 'starred',
+				obj: param
+			};
+			Seed.writeIntoChangeList( newChangeObj );
 		}
-		function cbStar(param){
+		function cbStar(param, listId){
+			// 注意children在IE9之前的版本（IE6/7/8）会列出注释节点
+			var curTodoTail = Util.qs('.todo[data-todoid="' + param.event_id + '"]').children[1];
+			if( param.isStared ){
+				Util.addClass( curTodoTail,'stared' );
+			}
+			else{
+				try{
+					Util.removeClass( curTodoTail,'stared' );
+				}
+				catch( err ){
 
+				}
+			}
+			// 将todo置为完成状态
+			// UI.starTodo( param.event_id );
+
+			// 将本地存储的本todo的状态更新
+			Seed.changeStorageValueByKey( listId, 'event_id', param.event_id, 'event_stared', param.isStared);
 		}
 	}
 
@@ -240,12 +277,32 @@ define( function( require, exports, module){
 		 */
 	}
 
+
+	function showTodosNote( token, todoId, blNetFirst, blNetMust){
+		// Note.get( token, todoId, blNetFirst, blNetMust);
+		var noteCtn = Util.qs('#notectn');
+		var note = Util.qs('.note[data-todoid="' + todoId + '"]');
+		// 填充笔记
+		// 获取高度
+		
+		Util.addClass(noteCtn, 'show');
+		var noteCtnCurStyle = window.getComputedStyle( note );
+		console.log( noteCtnCurStyle.height );
+		console.log( noteCtnCurStyle.width );
+		var curHeight = noteCtnCurStyle.height.substr(0, noteCtnCurStyle.height.indexOf('px'));
+		var curWidth = noteCtnCurStyle.width.substr(0, noteCtnCurStyle.height.indexOf('px'));
+		// note.style.top = ( document.body.clientHeight - curHeight )/2 + 'px';
+		note.style.top = ( document.body.clientHeight - curHeight )/2.375 + 'px';
+		note.style.left = ( document.body.clientWidth - curWidth )/2 + 'px';
+		Util.addClass( note, 'active' );
+	}
 	
 
 	function bindHandler(){
 
 		bindCreate();
-		bindComplete();
+		// bindComplete();
+		bindTodoNodeClickHandler();
 		bindAchieveClickHandler();
 
 		// 新建输入框的回车事件
@@ -261,6 +318,53 @@ define( function( require, exports, module){
 					todoContent = e.target.value;
 					var listId = Util.qs('.list.active').dataset.listid;
 					newTodo( Seed.token, listId, todoContent);
+				}
+			});
+		}
+
+		function bindTodoNodeClickHandler(){
+			var todoCtn = Util.qs('.todoctn');
+			Util.Event.addHandler( todoCtn, 'click', function( e ){
+				var target = e.target;
+				// 如果用户点击了正确的位置，就可以获得todoid， 位置不正确的话就return false了
+				try{
+					var listId = Util.qs('.todos.active').dataset.listid;
+					var todoId = target.parentNode.dataset.todoid;
+				}
+				catch(err){
+
+				}
+				switch( target.className ){
+					case 'todopre':
+						completeTodo( Seed.token, todoId, listId);
+						break;
+					case 'todobody':
+						(function(){
+							var noteCtn = Util.qs('#notectn');
+							var note = Util.qs('.note');
+							// 填充笔记
+							// 获取高度
+							
+							Util.addClass(noteCtn, 'show');
+							var noteCtnCurStyle = window.getComputedStyle( note );
+							console.log( noteCtnCurStyle.height );
+							console.log( noteCtnCurStyle.width );
+							var curHeight = noteCtnCurStyle.height.substr(0, noteCtnCurStyle.height.indexOf('px'));
+							var curWidth = noteCtnCurStyle.width.substr(0, noteCtnCurStyle.height.indexOf('px'));
+							// note.style.top = ( document.body.clientHeight - curHeight )/2 + 'px';
+							note.style.top = ( document.body.clientHeight - curHeight )/2.375 + 'px';
+							note.style.left = ( document.body.clientWidth - curWidth )/2 + 'px';
+							Util.addClass( note, 'active' );
+						})();
+						break;
+					case 'todotail':
+						starTodo( Seed.token, todoId, listId, true );
+						break;
+					case 'todotail stared':
+						break;
+					default:
+						return false;
+						break;
 				}
 			});
 		}
@@ -290,9 +394,9 @@ define( function( require, exports, module){
 				cordY += parseInt( curStyle.height.substr( 0, curStyle.height.indexOf('px') ) ) + 55;
 				Util.popOutField( achieveBtn, cordX, cordY, 'top' );
 
-				var curList = Utils.qs('.todos.active').dataset.listid;
+				var curList = Util.qs('.todos.active').dataset.listid;
 				var curAchieveUl = Util.qs('.completedTodo[data-listid="' + curList + '"]');
-				Util.addClass()
+				// Util.addClass()
 			});
 		}
 	}

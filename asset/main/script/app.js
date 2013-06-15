@@ -1,28 +1,33 @@
 define(function( require, exports){
 	var Util = require('./Util');
 	var Seed = require('./Seed');
+	var UI = require('./UI');
+
 	var User = require('./User');
 	var List = require('./List');
 	var Todo = require('./Todo');
-	var UI = require('./UI');
+	var Note = require('./Note');
 
 	window.onload = function(){
+
+		var uaIE = navigator.userAgent.match(/MSIE\ [0-9].[0-9]/);
+		if( uaIE ){
+			var ieVersion = uaIE[0].slice( 5 );
+			if( ieVersion < '8.0' ){
+				// 提示浏览器版本过低
+				return false;
+			}
+		}
+		
 		UI.init();
 		// List.bind();
 		List.getLists( Seed.token, true );
 
 		Todo.bind();
+		Note.bind();
 
 
 		var tipCtn = Util.qs('#tip');
-		Util.Event.addHandler( tipCtn, 'webkitTransitionEnd', function(){
-			// console.log( 'tip动画结束' );
-		} );
-		Util.Event.addHandler( tipCtn, 'transitionEnd', function(){
-			// console.log( 'tip动画结束' );
-			Util.Event.removeHandler( tipCtn,'webkitTransitionEnd');
-		} );
-		
 	};
 
 	function sync(){

@@ -90,12 +90,14 @@ define(function(require, exports, module){
 				// console.log('新建列表的动画。。。');
 				var target = Util.qs('#lists li[data-listid="' + newList.list_id + '"]');
 				UI.changeClass4ani( target, 'list' );
-				Util.addClass( target, 'active');
+				// Util.addClass( target, 'active');
 
 				// 给这个list制造空的todos的localcache
 				Seed.cacaheToLocal( newList.list_id, '' );
 				// 切换list的激活状态
-				Util.Event.trigger(target, 'click');
+				setTimeout( function(){
+					Util.Event.trigger(target, 'click');
+				}, 1000);
 				// 注  点击之后会发生addlist的input的blur事件
 
 				// 清空新建表单的内容
@@ -122,7 +124,8 @@ define(function(require, exports, module){
 				}
 				else{
 					var localErrMap = {};
-					// Seed.showTip( Util.errMap[ data.error_code ]);
+					var errMsg = Util.errMap[ data.error_code ] || '未知错误';
+					Seed.showTip( errMsg );
 				}
 				return false;
 			});
@@ -181,10 +184,6 @@ define(function(require, exports, module){
 			if( Seed.isStorageCached( Seed.listsKey ) ){
 				var listsStr = window.localStorage[ Seed.listsKey ];
 				var listsObj = JSON.parse( listsStr );
-				// var data = {
-				// 	error_code: 0,
-				// 	lists: listsObj
-				// }
 				cbGetLists( listsObj );
 			}
 		}
@@ -414,8 +413,6 @@ define(function(require, exports, module){
 		/*
 		 * 修改列表名称的操作
 		 * 双击修改（还是类名）
-		 * 
-		 * 
 		 */
 
 		function bindEditListDbclickhandler(){
